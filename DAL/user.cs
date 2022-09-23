@@ -18,9 +18,10 @@ namespace DAL
         public user()
         {
             this.opinions = new HashSet<opinion>();
-            this.orderAttractions = new HashSet<orderAttraction>();
-            this.attractions = new HashSet<attraction>();
             this.wishes = new HashSet<wish>();
+            this.attractions = new HashSet<attraction>();
+            this.orderAttractions = new HashSet<orderAttraction>();
+            this.reports = new HashSet<report>();
         }
     
         public int Id { get; set; }
@@ -29,14 +30,17 @@ namespace DAL
         public string Password { get; set; }
         public string Phone { get; set; }
         public Nullable<int> Status { get; set; }
+        public Nullable<bool> Active { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<opinion> opinions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<orderAttraction> orderAttractions { get; set; }
+        public virtual ICollection<wish> wishes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<attraction> attractions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<wish> wishes { get; set; }
+        public virtual ICollection<orderAttraction> orderAttractions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<report> reports { get; set; }
     }
 }

@@ -17,16 +17,22 @@ namespace DTO
         public int MinParticipant { get; set; }
         public int MaxParticipant { get; set; }
         public Nullable<bool> IsAvailable { get; set; }
-        public Nullable<int> TimeDuration { get; set; }
         public int FromAge { get; set; }
         public int TillAge { get; set; }
-        public Nullable<bool> status { get; set; }
+        public Nullable<bool> Status { get; set; }
         public int DaysToCancel { get; set; }
-        public System.DateTime date { get; set; }
+        public System.DateTime Date { get; set; }
         public int CategoryId { get; set; }
+        public Nullable<int> TimeDuration { get; set; }
+        public Nullable<int> AreaId { get; set; }
+        public string Phone { get; set; }
+        public string CategoryName { get; set; }
+
         public Nullable<int> ImageId { get; set; }
 
         public string Images { get; set; }
+
+        public int?[] Seasons { get; set; }
 
         public Nullable<double> CountAvgGrading { get; set; }
 

@@ -17,7 +17,7 @@ namespace API.Controllers
             return service.GetWishes().ToList();
         }
 
-        public List<DTO.WishDTO> GetWishesByUserId(int userId)
+        public List<DTO.AttractionDTO> GetWishesByUserId(int userId)
         {
             return service.GetWishesByUserId(userId).ToList();
         }
@@ -36,6 +36,7 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut]
 
         public IHttpActionResult Put(DTO.WishDTO wish)
         {
@@ -49,12 +50,11 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        public IHttpActionResult Delete(int wishId)
+        public IHttpActionResult Delete(int attractionId)
         {
             try
             {
-                service.Delete(wishId);
+                service.Delete(attractionId);
                 return Ok("המשאלה נמחק");
             }
             catch (Exception e)

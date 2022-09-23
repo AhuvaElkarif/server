@@ -42,27 +42,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Convert\AreaConvert.cs" />
     <Compile Include="Convert\AttractionConvert.cs" />
     <Compile Include="Convert\CategoryConvert.cs" />
     <Compile Include="Convert\EquipmentConvert.cs" />
     <Compile Include="Convert\GeneralTimeConvert.cs" />
     <Compile Include="Convert\ImageConvert.cs" />
+    <Compile Include="Convert\KindReportConvert.cs" />
     <Compile Include="Convert\OpinionConvert.cs" />
     <Compile Include="Convert\OrderAttractionConvert.cs" />
     <Compile Include="Convert\PeriodConvert.cs" />
     <Compile Include="Convert\ProductToOrderConvert.cs" />
+    <Compile Include="Convert\ReportConvert.cs" />
+    <Compile Include="Convert\SeasonConvert.cs" />
     <Compile Include="Convert\UserConvert.cs" />
     <Compile Include="Convert\WishConvert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AreaService.cs" />
     <Compile Include="Service\AttractionService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\EquipmentService.cs" />
     <Compile Include="Service\GeneralTimeService.cs" />
     <Compile Include="Service\ImageService.cs" />
+    <Compile Include="Service\KindReportService.cs" />
     <Compile Include="Service\OpinionService.cs" />
     <Compile Include="Service\OrderAttractionService.cs" />
     <Compile Include="Service\PeriodService.cs" />
     <Compile Include="Service\ProductToOrderService.cs" />
+    <Compile Include="Service\ReportService.cs" />
+    <Compile Include="Service\SeasonService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Service\WishService.cs" />
   </ItemGroup>

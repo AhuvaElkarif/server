@@ -55,11 +55,11 @@ namespace API.Controllers
             }
         }
 
-        public IHttpActionResult Delete(OpinionDTO opinion)
+        public IHttpActionResult Delete(int opinionId)
         {
             try
             {
-                var o = service.Delete(opinion);
+                var o = service.Delete(opinionId);
                 return Created("חוות דעת נמחקה", o);
             }
             catch (Exception e)

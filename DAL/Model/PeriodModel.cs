@@ -27,7 +27,7 @@ namespace DAL.Model
         {
             period newPeriod = db.periods.FirstOrDefault(x => x.Id == period.Id);
             newPeriod.FromDate = period.FromDate;
-            newPeriod.Season = period.Season;
+            newPeriod.SeasonId = period.SeasonId;
             newPeriod.TillDate = period.TillDate;
             db.SaveChanges();
             return period;

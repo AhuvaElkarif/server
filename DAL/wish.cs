@@ -18,7 +18,7 @@ namespace DAL
         public Nullable<int> AttractionId { get; set; }
         public Nullable<int> UserId { get; set; }
     
-        public virtual attraction attraction { get; set; }
         public virtual user user { get; set; }
+        public virtual attraction attraction { get; set; }
     }
 }

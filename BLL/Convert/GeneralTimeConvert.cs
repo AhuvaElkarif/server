@@ -19,7 +19,8 @@ namespace BLL.Convert
                 EndTime = obj.EndTime,
                 StartTime = obj.StartTime,
                 PeriodId = obj.PeriodId,
-                AttractionId = obj.AttractionId
+                AttractionId = obj.AttractionId,
+                //Period = obj.period.
             };
         }
 

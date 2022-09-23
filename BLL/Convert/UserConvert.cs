@@ -19,7 +19,9 @@ namespace BLL.Convert
                 Password = obj.Password,
                 Email = obj.Email,
                 Phone = obj.Phone,
-                Status = obj.Status
+                Status = obj.Status,
+                Active = obj.Active,
+                ActiveName = obj?.Active==true?"פעיל":"לא פעיל"
             };
         }
 
@@ -34,7 +36,8 @@ namespace BLL.Convert
                 Password = obj.Password,
                 Email = obj.Email,
                 Phone = obj.Phone,
-                Status = obj.Status
+                Status = obj.Status,
+                Active = obj.Active,
             };
         }
 

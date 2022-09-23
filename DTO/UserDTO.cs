@@ -14,5 +14,8 @@ namespace DTO
         public string Password { get; set; }
         public string Phone { get; set; }
         public Nullable<int> Status { get; set; }
+        public Nullable<bool> Active { get; set; }
+        public string ActiveName { get; set; }
+
     }
 }

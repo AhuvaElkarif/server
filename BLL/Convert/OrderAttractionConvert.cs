@@ -17,9 +17,9 @@ namespace BLL.Convert
                 Id = obj.Id,
                 OrderDate = obj.OrderDate,
                 UserId = obj.UserId,
-                GlobalPrice = obj.GlobalPrice
-
-        };
+                GlobalPrice = obj.GlobalPrice,
+                AttractionId = obj.AttractionId
+            };
         }
 
         public static DAL.orderAttraction Convert(DTO.OrderAttractionDTO obj)
@@ -31,6 +31,7 @@ namespace BLL.Convert
                 Id = obj.Id,
                 OrderDate = obj.OrderDate,
                 UserId = obj.UserId,
+                AttractionId = obj.AttractionId,
                 GlobalPrice = obj.GlobalPrice
             };
         }

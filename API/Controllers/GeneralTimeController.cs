@@ -23,7 +23,7 @@ namespace API.Controllers
             return service.GetByGeneralTimeId(generalTimeId);
         }
 
-        public DTO.GeneralTimeDTO GetGeneralTimesByAttractionId(int attractionId)
+        public List<DTO.GeneralTimeDTO> GetGeneralTimesByAttractionId(int attractionId)
         {
             return service.GetGeneralTimesByAttractionId(attractionId);
         }

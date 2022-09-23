@@ -13,9 +13,9 @@ namespace DAL.Model
         {
             return db.wishes.ToList();
         }
-        public List<wish> GetWishesByUserId(int userId)
+        public List<attraction> GetWishesByUserId(int userId)
         {
-            return db.wishes.Where(x => x.UserId == userId).ToList();
+            return db.attractions.Where(x => x.wishes.Any(y => y.UserId == userId)).ToList();
         }
         //public List<attraction> GetAttractionsById(int userId)
         //{
@@ -40,9 +40,9 @@ namespace DAL.Model
             return wish;
 
         }
-        public bool Delete(int wishId)
+        public bool Delete(int attractionId)
         {
-            wish newWish = db.wishes.Remove(db.wishes.FirstOrDefault(x => x.Id == wishId));
+            wish newWish = db.wishes.Remove(db.wishes.FirstOrDefault(x => x.AttractionId == attractionId));
             db.SaveChanges();
             return true;
 

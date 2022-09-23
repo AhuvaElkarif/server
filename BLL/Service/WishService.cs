@@ -15,7 +15,7 @@ namespace BLL.Service
             return Convert.WishConvert.Convert(model.GetWishes());
         }
 
-        public List<DTO.WishDTO> GetWishesByUserId(int userId)
+        public List<DTO.AttractionDTO> GetWishesByUserId(int userId)
         {
             return Convert.WishConvert.Convert(model.GetWishesByUserId(userId));
         }
@@ -30,9 +30,9 @@ namespace BLL.Service
             return Convert.WishConvert.Convert(model.Put(Convert.WishConvert.Convert(wish)));
         }
 
-        public bool Delete(int user)
+        public bool Delete(int attractionId)
         {
-            return model.Delete(user);
+            return model.Delete(attractionId);
         }
     }
 }

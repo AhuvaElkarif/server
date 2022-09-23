@@ -19,7 +19,7 @@ namespace DAL.Model
             return db.attractions.Where(x => x.ManagerId == id).ToList();
         }
 
-        
+
         public List<attraction> GetAttractionsByArea(int id)
         {
             return db.attractions.Where(x => x.ManagerId == id).ToList();
@@ -41,10 +41,9 @@ namespace DAL.Model
         public attraction Put(attraction attraction)
         {
             attraction newAttraction = db.attractions.FirstOrDefault(x => x.Id == attraction.Id);
-            newAttraction.Name = attraction.Name;
             newAttraction.Address = attraction.Address;
-            newAttraction.CategoryId = attraction.CategoryId;
-            newAttraction.date = attraction.date;
+            newAttraction.Name = attraction.Name;
+            newAttraction.Date = attraction.Date;
             newAttraction.DaysToCancel = attraction.DaysToCancel;
             newAttraction.Description = attraction.Description;
             newAttraction.FromAge = attraction.FromAge;
@@ -54,10 +53,29 @@ namespace DAL.Model
             newAttraction.MaxParticipant = attraction.MaxParticipant;
             newAttraction.MinParticipant = attraction.MinParticipant;
             newAttraction.Price = attraction.Price;
-            newAttraction.status = attraction.status;
+            newAttraction.Status = attraction.Status;
+            newAttraction.AreaId = attraction.AreaId;
+            newAttraction.Phone = attraction.Phone;
+            newAttraction.CategoryId = attraction.CategoryId;
+            newAttraction.ManagerId = attraction.ManagerId;
             db.SaveChanges();
             return attraction;
 
+        }
+
+        public attraction ChangeAttractionAvailable(int attractionId)
+        {
+            attraction a = db.attractions.FirstOrDefault(x => x.Id == attractionId);
+            a.IsAvailable = !a.IsAvailable;
+            db.SaveChanges();
+            return a;
+        }
+        public attraction ChangeAttractionStatus(int attractionId)
+        {
+            attraction a = db.attractions.FirstOrDefault(x => x.Id == attractionId);
+            a.Status = !a.Status;
+            db.SaveChanges();
+            return a;
         }
         public attraction Delete(attraction attraction)
         {

@@ -11,15 +11,18 @@ namespace DAL.Model
         discoverIsraelEntities db = new discoverIsraelEntities();
         public List<generalTime> Get()
         {
-            return db.generalTimes.ToList();
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.generalTimes.ToList();
+            }
         }
         public generalTime GetByGeneralTimeId(int generalTimeId)
         {
             return db.generalTimes.FirstOrDefault(x => x.Id == generalTimeId);
         }
-        public generalTime GetGeneralTimesByAttractionId(int attractionId)
+        public List<generalTime> GetGeneralTimesByAttractionId(int attractionId)
         {
-            return db.generalTimes.FirstOrDefault(x => x.AttractionId == attractionId);
+            return db.generalTimes.Where(x => x.AttractionId == attractionId).ToList();
         }
         public generalTime Post(generalTime generalTime)
         {

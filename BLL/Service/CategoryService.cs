@@ -18,6 +18,11 @@ namespace BLL.Service
             return Convert.CategoryConvert.Convert(model.Get());
         }
 
+        public List<DTO.CategoryDTO> GetWaitingCategory()
+        {
+            return Convert.CategoryConvert.Convert(model.GetWaitingCategory());
+        }
+
         public DTO.CategoryDTO GetCategoryByCategoryId(int categoryId)
         {
             return Convert.CategoryConvert.Convert(model.GetCategoryByCategoryId(categoryId));
@@ -27,7 +32,10 @@ namespace BLL.Service
         {
             return Convert.CategoryConvert.Convert(model.Post(Convert.CategoryConvert.Convert(category)));
         }
-        
+        public DTO.CategoryDTO ChangeStatus(CategoryDTO category)
+        {
+            return Convert.CategoryConvert.Convert(model.ChangeStatus(Convert.CategoryConvert.Convert(category)));
+        }
         public DTO.CategoryDTO Put(CategoryDTO category)
         {
             return Convert.CategoryConvert.Convert(model.Put(Convert.CategoryConvert.Convert(category)));

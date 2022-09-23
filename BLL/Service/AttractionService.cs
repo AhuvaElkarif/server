@@ -27,6 +27,12 @@ namespace BLL.Service
             return Convert.AttractionConvert.Convert(model.GetAttractionsByUserId(id));
         }
 
+        //public List<DateTime> getrelevantdatesbyamount(int qty, int month)
+        //{
+        //    List<attraction> list = model.GetAttractions();
+        //    list.Where(x => x.generalTimes.Where(y => (y.EndTime - y.StartTime) / x.TimeDuration);
+
+        //}
         public List<DTO.AttractionDTO> GetAttractionsByCategoryId(int categoryId)
         {
             return Convert.AttractionConvert.Convert(model.GetAttractionsByCategoryId(categoryId));
@@ -41,7 +47,15 @@ namespace BLL.Service
         {
            return Convert.AttractionConvert.Convert(model.Put(Convert.AttractionConvert.Convert(attraction)));
         }
-
+        
+             public DTO.AttractionDTO ChangeAttractionAvailable(int attractionId)
+        {
+            return Convert.AttractionConvert.Convert(model.ChangeAttractionAvailable(attractionId));
+        }
+        public DTO.AttractionDTO ChangeAttractionStatus(int attractionId)
+        {
+            return Convert.AttractionConvert.Convert(model.ChangeAttractionStatus(attractionId));
+        }
         public DTO.AttractionDTO Delete(AttractionDTO attraction)
         {
             return Convert.AttractionConvert.Convert(model.Delete(Convert.AttractionConvert.Convert(attraction)));

@@ -39,11 +39,11 @@ namespace DAL.Model
             return opinion;
 
         }
-        public opinion Delete(opinion opinion)
+        public bool Delete(int opinionId)
         {
-            opinion newOpinion = db.opinions.Remove(opinion);
+            opinion newOpinion = db.opinions.Remove(db.opinions.FirstOrDefault(x => x.Id == opinionId));
             db.SaveChanges();
-            return opinion;
+            return true;
         }
     }
 }

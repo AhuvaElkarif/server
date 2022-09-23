@@ -22,6 +22,27 @@ namespace DAL.Model
             return db.orderAttractions.FirstOrDefault(x => x.UserId == userId);
         }
 
+        //public orderAttraction GetOrdersUserId(int atractionId,int month, int year)
+        //{
+        //        //var d = db.attractions.FirstOrDefault(x => x.Id == atractionId);//.generalTimes.Where(x=>new DateTime()>=x.period.FromDate&& new DateTime() >= x.period.TillDate)
+        //    int manyDay = db.attractions.FirstOrDefault(x=> x.Id==atractionId).periods.Where();
+        //    // כמה אטרקציות יכול להיות ביום
+        //    Dictionary<DateTime, int> dic = new Dictionary<DateTime, int>();
+        //    // לבדוק שהתאריכים עדיים תקפים
+        //    DateTime date = new DateTime(year, month, 1);
+        //    //&&date<=endDate
+        //    for (; date.Month == month; date.AddDays(1))
+        //    {
+               
+        //        int f=db.orderAttractions.Where(x => x.Id == atractionId && x.OrderDate == date).ToList().Count();
+               
+        //        dic.Add(date, manyDay-f);
+        //        for(date.AddHours(8);)
+        //    }
+
+        //    return db.orderAttractions.FirstOrDefault(x => x.UserId == userId);
+        //}
+
         public orderAttraction Post(orderAttraction orderAttraction)
         {
             orderAttraction = db.orderAttractions.Add(orderAttraction);

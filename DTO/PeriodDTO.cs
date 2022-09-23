@@ -9,7 +9,7 @@ namespace DTO
     public class PeriodDTO
     {
         public int Id { get; set; }
-        public string Season { get; set; }
+        public Nullable<int> SeasonId { get; set; }
         public System.DateTime FromDate { get; set; }
         public System.DateTime TillDate { get; set; }
     }

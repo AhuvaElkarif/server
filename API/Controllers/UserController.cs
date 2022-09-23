@@ -12,18 +12,25 @@ namespace API.Controllers
 
         BLL.Service.UserService service = new BLL.Service.UserService();
         [HttpGet]
-        public List<DTO.UserDTO> GetUsers()
+        //public List<DTO.UserDTO> GetUsers()
+        //{
+        //    return service.GetUsers();
+        //}
+        public List<DTO.UserDTO> GetManagersUsers()
         {
-            return service.GetUsers();
+            return service.GetManagersUsers();
         }
-
         public DTO.UserDTO GetUserByUserId(int userId)
         {
             return service.GetUserByUserId(userId);
         }
-
+        public DTO.UserDTO GetUserByEmail(string email)
+        {
+            return service.GetUserByEmail(email);
+        }
+        
         [HttpPost]
-        //[Route("api/trip/post2")]
+       
         public IHttpActionResult Post(UserDTO user)
         {
             try
@@ -36,7 +43,21 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [Route("api/user/post2")]
+        public IHttpActionResult Login(UserDTO user)
+        {
+            try
+            {
+                var u = service.Login(user);
+                return Created("המשתמש התחבר", u);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
+        [HttpPut]
         public IHttpActionResult Put(UserDTO user)
         {
             try
@@ -49,7 +70,34 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
+        [Route("Api/user/ChangePassword")]
+        public IHttpActionResult ChangePassword(UserDTO user)
+        {
+            try
+            {
+                var u = service.ChangePassword(user);
+                return Created("המשתמש עודכן", u);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("Api/user/ChangeUsersStatus")]
+        public IHttpActionResult ChangeUsersStatus(List<UserDTO> users)
+        {
+            try
+            {
+                var u = service.ChangeUsersStatus(users);
+                return Created("המשתמשים עודכנו", u);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         public IHttpActionResult Delete(int user)
         {
             try

@@ -41,16 +41,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AreaDTO.cs" />
     <Compile Include="AttractionDTO.cs" />
     <Compile Include="CategoryDTO.cs" />
     <Compile Include="EquipmentDTO.cs" />
     <Compile Include="GeneralTimeDTO.cs" />
     <Compile Include="ImageDTO.cs" />
+    <Compile Include="KindReportDTO.cs" />
     <Compile Include="OpinionDTO.cs" />
     <Compile Include="OrderAttractionDTO.cs" />
     <Compile Include="PeriodDTO.cs" />
     <Compile Include="ProductToOrderDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportDTO.cs" />
+    <Compile Include="SeasonDTO.cs" />
     <Compile Include="UserDTO.cs" />
     <Compile Include="WishDTO.cs" />
   </ItemGroup>

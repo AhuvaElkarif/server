@@ -23,6 +23,9 @@ namespace DAL
             this.generalTimes = new HashSet<generalTime>();
             this.opinions = new HashSet<opinion>();
             this.productToOrders = new HashSet<productToOrder>();
+            this.periods = new HashSet<period>();
+            this.orderAttractions = new HashSet<orderAttraction>();
+            this.reports = new HashSet<report>();
         }
     
         public int Id { get; set; }
@@ -36,15 +39,14 @@ namespace DAL
         public Nullable<bool> IsAvailable { get; set; }
         public int FromAge { get; set; }
         public int TillAge { get; set; }
-        public Nullable<bool> status { get; set; }
+        public Nullable<bool> Status { get; set; }
         public int DaysToCancel { get; set; }
-        public System.DateTime date { get; set; }
+        public System.DateTime Date { get; set; }
         public int CategoryId { get; set; }
         public Nullable<int> TimeDuration { get; set; }
         public Nullable<int> AreaId { get; set; }
+        public string Phone { get; set; }
     
-        public virtual Area Area { get; set; }
-        public virtual category category { get; set; }
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<equipment> equipments { get; set; }
@@ -58,5 +60,13 @@ namespace DAL
         public virtual ICollection<opinion> opinions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productToOrder> productToOrders { get; set; }
+        public virtual area area { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<period> periods { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<orderAttraction> orderAttractions { get; set; }
+        public virtual category category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<report> reports { get; set; }
     }
 }

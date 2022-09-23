@@ -22,7 +22,7 @@ namespace BLL.Service
             return Convert.GeneralTimeConvert.Convert(model.GetByGeneralTimeId(generalTimeId));
         }
 
-        public DTO.GeneralTimeDTO GetGeneralTimesByAttractionId(int attractionId)
+        public List<DTO.GeneralTimeDTO> GetGeneralTimesByAttractionId(int attractionId)
         {
             return Convert.GeneralTimeConvert.Convert(model.GetGeneralTimesByAttractionId(attractionId));
         }

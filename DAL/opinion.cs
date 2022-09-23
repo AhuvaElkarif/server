@@ -14,6 +14,12 @@ namespace DAL
     
     public partial class opinion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public opinion()
+        {
+            this.reports = new HashSet<report>();
+        }
+    
         public int Id { get; set; }
         public string OpinionText { get; set; }
         public int AttractionId { get; set; }
@@ -23,5 +29,7 @@ namespace DAL
     
         public virtual user user { get; set; }
         public virtual attraction attraction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<report> reports { get; set; }
     }
 }

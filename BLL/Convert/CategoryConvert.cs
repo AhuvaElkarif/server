@@ -15,7 +15,8 @@ namespace BLL.Convert
             return new DTO.CategoryDTO()
             {
                 Id = obj.Id,
-                Name = obj.Name
+                Name = obj.Name,
+                Status = obj.Status
             };
         }
 
@@ -26,7 +27,8 @@ namespace BLL.Convert
             return new DAL.category()
             {
                 Id = obj.Id,
-                Name = obj.Name
+                Name = obj.Name,
+                Status = obj.Status
             };
         }
 

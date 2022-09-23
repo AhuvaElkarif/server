@@ -15,6 +15,12 @@ namespace API.Controllers
         {
             return service.Get();
         }
+
+        [Route("Api/category/GetWaitingCategory")]
+        public List<DTO.CategoryDTO> GetWaitingCategory()
+        {
+            return service.GetWaitingCategory();
+        }
         public DTO.CategoryDTO GetCategoryByCategoryId(int categoryId)
         {
             return service.GetCategoryByCategoryId(categoryId);
@@ -34,7 +40,20 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
+        [Route("Api/category/ChangeStatus")]
+        public IHttpActionResult ChangeStatus(CategoryDTO category)
+        {
+            try
+            {
+                var a = service.ChangeStatus(category);
+                return Created("הססטוס עודכן", a);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         public IHttpActionResult Put(CategoryDTO category)
         {
             try

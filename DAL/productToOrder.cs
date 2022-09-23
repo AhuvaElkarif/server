@@ -22,7 +22,7 @@ namespace DAL
         public System.TimeSpan TillHour { get; set; }
         public bool Status { get; set; }
     
-        public virtual orderAttraction orderAttraction { get; set; }
         public virtual attraction attraction { get; set; }
+        public virtual orderAttraction orderAttraction { get; set; }
     }
 }

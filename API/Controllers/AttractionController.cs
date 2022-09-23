@@ -24,9 +24,6 @@ namespace API.Controllers
             return service.GetAttractionByAttractionId(attractionId);
         }
 
-        //action/GetAttractions
-        //actios/2
-        // actions?id=2
         public List<DTO.AttractionDTO> GetAttractionsByUserId(int userId)
         {
             return service.GetAttractionsByUserId(userId);
@@ -54,8 +51,8 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        public IHttpActionResult Put(AttractionDTO attraction)
+        [HttpPut]
+        public IHttpActionResult UpdateAttraction(AttractionDTO attraction)
         {
             try
             {
@@ -67,7 +64,35 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
+        [Route("Api/attraction/ChangeAttractionAvailable")]
+        public IHttpActionResult ChangeAttractionAvailable(int attractionId)
+        {
+            try
+            {
+                var a = service.ChangeAttractionAvailable(attractionId);
+                return Created("האטרקציה עודכנה", a);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut]
+        [Route("Api/attraction/ChangeAttractionStatus")]
+        public IHttpActionResult ChangeAttractionStatus(int attractionId)
+        {
+            try
+            {
+                var a = service.ChangeAttractionStatus(attractionId);
+                return Created("האטרקציה עודכנה", a);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpDelete]
         public IHttpActionResult Delete(AttractionDTO attraction)
         {
             try

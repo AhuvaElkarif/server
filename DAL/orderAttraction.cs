@@ -24,9 +24,12 @@ namespace DAL
         public int UserId { get; set; }
         public Nullable<System.DateTime> OrderDate { get; set; }
         public int GlobalPrice { get; set; }
+        public Nullable<int> Amount { get; set; }
+        public Nullable<int> AttractionId { get; set; }
     
+        public virtual attraction attraction { get; set; }
+        public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productToOrder> productToOrders { get; set; }
-        public virtual user user { get; set; }
     }
 }

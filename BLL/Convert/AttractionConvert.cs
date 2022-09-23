@@ -17,7 +17,7 @@ namespace BLL.Convert
                 Id = obj.Id,
                 Address = obj.Address,
                 Name = obj.Name,
-                date = obj.date,
+                Date = obj.Date,
                 DaysToCancel = obj.DaysToCancel,
                 Description = obj.Description,
                 FromAge = obj.FromAge,
@@ -27,10 +27,13 @@ namespace BLL.Convert
                 MaxParticipant = obj.MaxParticipant,
                 MinParticipant = obj.MinParticipant,
                 Price = obj.Price,
-                status = obj.status,
-                CountAvgGrading = obj.opinions.Any()? obj.opinions.ToList().Average(x=>x.Grading):0,
-                Images= string.Join(",", obj.images.Select(x=>x.Img))
-
+                Status = obj.Status,
+                CategoryId = obj.CategoryId,
+                AreaId = obj.AreaId,
+                CategoryName = obj.category?.Name,
+                CountAvgGrading = obj.opinions.Any() ? obj.opinions.ToList().Average(x => x.Grading) : 0,
+                Images = string.Join(",", obj.images.Select(x => x.Img)),
+                Seasons = obj.periods.Select(x => x.SeasonId).ToArray()
             };
            
         }
@@ -44,7 +47,7 @@ namespace BLL.Convert
                 Id = obj.Id,
                 Address = obj.Address,
                 Name = obj.Name,
-                date = obj.date,
+                Date = obj.Date,
                 DaysToCancel = obj.DaysToCancel,
                 Description = obj.Description,
                 FromAge = obj.FromAge,
@@ -54,7 +57,11 @@ namespace BLL.Convert
                 MaxParticipant = obj.MaxParticipant,
                 MinParticipant = obj.MinParticipant,
                 Price = obj.Price,
-                status = obj.status
+                Status = obj.Status,
+                AreaId = obj.AreaId,
+                Phone = obj.Phone,
+                CategoryId = obj.CategoryId,
+                ManagerId = obj.ManagerId,
             };
         }
 
