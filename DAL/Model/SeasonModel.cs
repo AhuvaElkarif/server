@@ -8,37 +8,49 @@ namespace DAL.Model
 {
     public class SeasonModel
     {
-        discoverIsraelEntities db = new discoverIsraelEntities();
-
         public List<season> GetSeasons()
         {
-            return db.seasons.ToList();
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.seasons.ToList();
+            }
         }
 
         public season GetSeasonBySeasonId(int id)
         {
-            return db.seasons.FirstOrDefault(x => x.Id == id);
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.seasons.FirstOrDefault(x => x.Id == id);
+            }
         }
         public season Post(season season)
         {
-            season = db.seasons.Add(season);
-            db.SaveChanges();
-            return season;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                season = db.seasons.Add(season);
+                db.SaveChanges();
+                return season;
+            }
         }
         public season Put(season season)
         {
-            season newseason = db.seasons.FirstOrDefault(x => x.Id == season.Id);
-            newseason.Name = season.Name;
-            db.SaveChanges();
-            return season;
-
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                season newseason = db.seasons.FirstOrDefault(x => x.Id == season.Id);
+                newseason.Name = season.Name;
+                db.SaveChanges();
+                return season;
+            }
         }
 
         public season Delete(season season)
         {
-            season newseason = db.seasons.Remove(season);
-            db.SaveChanges();
-            return season;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                season newseason = db.seasons.Remove(season);
+                db.SaveChanges();
+                return season;
+            }
         }
     }
 }

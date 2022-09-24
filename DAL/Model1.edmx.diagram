@@ -8,11 +8,9 @@
         <EntityTypeShape EntityType="discoverIsraelModel.productToOrder" Width="1.5" PointX="10" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="discoverIsraelModel.equipment" Width="1.5" PointX="5.25" PointY="14.625" />
         <EntityTypeShape EntityType="discoverIsraelModel.image" Width="1.5" PointX="5.25" PointY="1.625" />
-        <EntityTypeShape EntityType="discoverIsraelModel.opinion" Width="1.5" PointX="5.25" PointY="8.25" />
         <EntityTypeShape EntityType="discoverIsraelModel.wish" Width="1.5" PointX="5.25" PointY="11.5" />
         <EntityTypeShape EntityType="discoverIsraelModel.generalTime" Width="1.5" PointX="5.25" PointY="4.375" />
         <EntityTypeShape EntityType="discoverIsraelModel.user" Width="1.5" PointX="0.75" PointY="9.75" />
-        <AssociationConnector Association="discoverIsraelModel.opinionToUser" />
         <AssociationConnector Association="discoverIsraelModel.FK_Wish_users" />
         <EntityTypeShape EntityType="discoverIsraelModel.attraction" Width="1.5" PointX="3" PointY="5.25" />
         <AssociationConnector Association="discoverIsraelModel.FK__attractio__Manag__35BCFE0A" />
@@ -20,7 +18,6 @@
         <AssociationConnector Association="discoverIsraelModel.FK_Image_attraction" />
         <AssociationConnector Association="discoverIsraelModel.FK_wish_attraction1" />
         <AssociationConnector Association="discoverIsraelModel.generalTimeToAttraction" />
-        <AssociationConnector Association="discoverIsraelModel.opinionToAttraction" />
         <AssociationConnector Association="discoverIsraelModel.productToOrderToAttraction" />
         <EntityTypeShape EntityType="discoverIsraelModel.area" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="discoverIsraelModel.FK_attraction_Area" />
@@ -40,8 +37,11 @@
         <EntityTypeShape EntityType="discoverIsraelModel.report" Width="1.5" PointX="8.25" PointY="13.75" />
         <AssociationConnector Association="discoverIsraelModel.FK_report_attraction" />
         <AssociationConnector Association="discoverIsraelModel.FK_report_kindReport" />
-        <AssociationConnector Association="discoverIsraelModel.FK_OpinionReport" />
         <AssociationConnector Association="discoverIsraelModel.FK_report_users" />
+        <EntityTypeShape EntityType="discoverIsraelModel.opinion" Width="1.5" PointX="5.25" PointY="7.75" />
+        <AssociationConnector Association="discoverIsraelModel.opinionToAttraction" />
+        <AssociationConnector Association="discoverIsraelModel.FK_OpinionReport" />
+        <AssociationConnector Association="discoverIsraelModel.opinionToUser" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

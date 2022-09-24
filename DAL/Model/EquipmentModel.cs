@@ -8,41 +8,55 @@ namespace DAL.Model
 {
     public class EquipmentModel
     {
-        discoverIsraelEntities db = new discoverIsraelEntities();
         public List<equipment> Get()
         {
-            return db.equipments.ToList();
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.equipments.ToList();
+            }
         }
         public equipment GetEquipmentstByEquipmentId(int equipmentId)
         {
-            return db.equipments.FirstOrDefault(x => x.Id == equipmentId);
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.equipments.FirstOrDefault(x => x.Id == equipmentId);
+            }
 
         }
         public List<equipment> GetEquipmentsByAttractionId(int attractionId)
         {
-
-            return db.equipments.Where(x => x.AttractionId == attractionId).ToList();
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.equipments.Where(x => x.AttractionId == attractionId).ToList();
+            }
         }
         public equipment Post(equipment equipment)
         {
-
-            equipment = db.equipments.Add(equipment);
-            db.SaveChanges();
-            return equipment;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                equipment = db.equipments.Add(equipment);
+                db.SaveChanges();
+                return equipment;
+            }
         }
         public equipment Put(equipment equipment)
         {
-
-            equipment newEquipment = db.equipments.FirstOrDefault(x => x.Id == equipment.Id);
-            newEquipment.Name = equipment.Name;
-            db.SaveChanges();
-            return equipment;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                equipment newEquipment = db.equipments.FirstOrDefault(x => x.Id == equipment.Id);
+                newEquipment.Name = equipment.Name;
+                db.SaveChanges();
+                return equipment;
+            }
         }
         public equipment Delete(equipment equipment)
         {
-            equipment newEquipment = db.equipments.Remove(equipment);
-            db.SaveChanges();
-            return equipment;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                equipment newEquipment = db.equipments.Remove(equipment);
+                db.SaveChanges();
+                return equipment;
+            }
         }
     }
 }

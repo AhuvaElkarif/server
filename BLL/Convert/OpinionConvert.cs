@@ -19,8 +19,9 @@ namespace BLL.Convert
                 InsertDate = obj.InsertDate,
                 OpinionText = obj.OpinionText,
                 UserId = obj.UserId,
-                Grading = obj.Grading
-        };
+                Grading = obj.Grading,
+                Status = obj.Status
+            };
         }
 
         public static DAL.opinion Convert(DTO.OpinionDTO obj)
@@ -34,6 +35,7 @@ namespace BLL.Convert
                 InsertDate = obj.InsertDate,
                 OpinionText = obj.OpinionText,
                 UserId = obj.UserId,
+                Status = obj.Status,
                 Grading = obj.Grading
             };
         }

@@ -8,42 +8,69 @@ namespace DAL.Model
 {
     public class OpinionModel
     {
-        discoverIsraelEntities db = new discoverIsraelEntities();
         public List<opinion> GetOpinions()
         {
-            return db.opinions.ToList();
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.opinions.Where(x => x.Status==true).ToList();
+            }
         }
         public opinion GetOpinionByOpinionId(int opinionId)
         {
-            return db.opinions.FirstOrDefault(x => x.Id == opinionId);
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.opinions.FirstOrDefault(x => x.Id == opinionId);
+            }
         }
         public List<opinion> GetOpinionsByAttrctionId(int attractionId)
         {
-            return db.opinions.Where(x => x.AttractionId == attractionId).ToList();
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.opinions.Where(x => x.AttractionId == attractionId).ToList();
+            }
         }
         public opinion Post(opinion opinion)
         {
-            opinion = db.opinions.Add(opinion);
-            db.SaveChanges();
-            return opinion;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                opinion = db.opinions.Add(opinion);
+                db.SaveChanges();
+                return opinion;
+            }
         }
         public opinion Put(opinion opinion)
         {
-            opinion newOpinion = db.opinions.FirstOrDefault(x => x.Id == opinion.Id);
-            newOpinion.AttractionId = opinion.AttractionId;
-            newOpinion.InsertDate = opinion.InsertDate;
-            newOpinion.OpinionText = opinion.OpinionText;
-            newOpinion.UserId = opinion.UserId;
-            newOpinion.Grading = opinion.Grading;
-            db.SaveChanges();
-            return opinion;
-
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                opinion newOpinion = db.opinions.FirstOrDefault(x => x.Id == opinion.Id);
+                newOpinion.AttractionId = opinion.AttractionId;
+                newOpinion.InsertDate = opinion.InsertDate;
+                newOpinion.OpinionText = opinion.OpinionText;
+                newOpinion.UserId = opinion.UserId;
+                newOpinion.Status = opinion.Status;
+                newOpinion.Grading = opinion.Grading;
+                db.SaveChanges();
+                return opinion;
+            }
+        }
+        public opinion ChangeStatus(int opinionId)
+        {
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                opinion newOpinion = db.opinions.FirstOrDefault(x => x.Id == opinionId);
+                newOpinion.Status = !newOpinion.Status;
+                db.SaveChanges();
+                return newOpinion;
+            }
         }
         public bool Delete(int opinionId)
         {
-            opinion newOpinion = db.opinions.Remove(db.opinions.FirstOrDefault(x => x.Id == opinionId));
-            db.SaveChanges();
-            return true;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                opinion newOpinion = db.opinions.Remove(db.opinions.FirstOrDefault(x => x.Id == opinionId));
+                db.SaveChanges();
+                return true;
+            }
         }
     }
 }

@@ -28,7 +28,6 @@ namespace DAL
         public virtual DbSet<productToOrder> productToOrders { get; set; }
         public virtual DbSet<equipment> equipments { get; set; }
         public virtual DbSet<image> images { get; set; }
-        public virtual DbSet<opinion> opinions { get; set; }
         public virtual DbSet<wish> wishes { get; set; }
         public virtual DbSet<generalTime> generalTimes { get; set; }
         public virtual DbSet<user> users { get; set; }
@@ -40,5 +39,6 @@ namespace DAL
         public virtual DbSet<orderAttraction> orderAttractions { get; set; }
         public virtual DbSet<category> categories { get; set; }
         public virtual DbSet<report> reports { get; set; }
+        public virtual DbSet<opinion> opinions { get; set; }
     }
 }

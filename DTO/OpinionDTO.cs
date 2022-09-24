@@ -14,5 +14,6 @@ namespace DTO
         public int AttractionId { get; set; }
         public int UserId { get; set; }
         public System.DateTime InsertDate { get; set; }
+        public Nullable<bool> Status { get; set; }
     }
 }

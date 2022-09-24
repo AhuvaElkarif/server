@@ -41,7 +41,19 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
+        public IHttpActionResult ChangeStatus(int opinionId)
+        {
+            try
+            {
+                var o = service.ChangeStatus(opinionId);
+                return Created("חוות דעת עודכנה", o);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         public IHttpActionResult Put(OpinionDTO opinion)
         {
             try

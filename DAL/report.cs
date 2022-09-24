@@ -22,7 +22,7 @@ namespace DAL
     
         public virtual attraction attraction { get; set; }
         public virtual kindReport kindReport { get; set; }
-        public virtual opinion opinion { get; set; }
         public virtual user user { get; set; }
+        public virtual opinion opinion { get; set; }
     }
 }

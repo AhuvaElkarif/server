@@ -36,7 +36,10 @@ namespace BLL.Service
         {
             return Convert.OpinionConvert.Convert(model.Put(Convert.OpinionConvert.Convert(opinion)));
         }
-
+        public DTO.OpinionDTO ChangeStatus(int opinionId)
+        {
+            return Convert.OpinionConvert.Convert(model.ChangeStatus(opinionId));
+        }
         public bool Delete(int opinionId)
         {
             return model.Delete(opinionId);
