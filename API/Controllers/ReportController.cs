@@ -22,7 +22,6 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        //[Route("api/trip/post2")]
         public IHttpActionResult Post(ReportDTO report)
         {
             try
@@ -35,7 +34,20 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
+        [Route("Api/report/ChangeStatus")]
+        public IHttpActionResult ChangeStatus(int reportId, string operation)
+        {
+            try
+            {
+                var o = service.ChangeStatus(reportId, operation);
+                return Created("הדיווח עודכן", o);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         public IHttpActionResult Put(ReportDTO report)
         {
             try

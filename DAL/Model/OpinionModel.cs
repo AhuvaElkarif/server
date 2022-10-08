@@ -15,6 +15,13 @@ namespace DAL.Model
                 return db.opinions.Where(x => x.Status==true).ToList();
             }
         }
+        public List<opinion> GetNotActiveOpinions()
+        {
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.opinions.Where(x => x.Status == false).ToList();
+            }
+        }
         public opinion GetOpinionByOpinionId(int opinionId)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())

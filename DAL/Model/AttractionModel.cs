@@ -10,10 +10,11 @@ namespace DAL.Model
     {
         public List<attraction> GetAttractions()
         {
-            using (discoverIsraelEntities db = new discoverIsraelEntities())
-            {
+            //using (discoverIsraelEntities db = new discoverIsraelEntities())
+            //{
+            discoverIsraelEntities db = new discoverIsraelEntities();
                 return db.attractions.ToList();
-            }
+            //}
         }
         public List<attraction> GetAttractionsByUserId(int id)
         {

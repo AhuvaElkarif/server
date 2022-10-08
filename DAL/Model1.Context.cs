@@ -38,7 +38,7 @@ namespace DAL
         public virtual DbSet<kindReport> kindReports { get; set; }
         public virtual DbSet<orderAttraction> orderAttractions { get; set; }
         public virtual DbSet<category> categories { get; set; }
-        public virtual DbSet<report> reports { get; set; }
         public virtual DbSet<opinion> opinions { get; set; }
+        public virtual DbSet<report> reports { get; set; }
     }
 }

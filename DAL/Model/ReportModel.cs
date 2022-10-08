@@ -10,10 +10,11 @@ namespace DAL.Model
     {
         public List<report> GetReports()
         {
-            using (discoverIsraelEntities db = new discoverIsraelEntities())
-            {
-                return db.reports.ToList();
-            }
+            //using (discoverIsraelEntities db = new discoverIsraelEntities())
+            //{
+            discoverIsraelEntities db = new discoverIsraelEntities();
+            return db.reports.Where(x => x.Status == true).ToList();
+            //}
         }
 
         public report GetReportByreportId(int id)
@@ -22,6 +23,22 @@ namespace DAL.Model
             {
                 return db.reports.FirstOrDefault(x => x.Id == id);
             }
+        }
+        public report ChangeStatus(int id, string operation)
+        {
+            //using (discoverIsraelEntities db = new discoverIsraelEntities())
+            //{
+            discoverIsraelEntities db = new discoverIsraelEntities();
+                report report = db.reports.FirstOrDefault(x => x.Id == id);
+                if (operation == "cancel")
+                {
+                    opinion o = db.opinions.FirstOrDefault(x => x.Id == report.OpinionId);
+                    o.Status = !o.Status;
+                }
+                report.Status = !report.Status;
+                db.SaveChanges();
+                return report;
+            //}
         }
         public report Post(report report)
         {
@@ -40,6 +57,7 @@ namespace DAL.Model
                 newReport.AttractionId = report.AttractionId;
                 newReport.UserId = report.UserId;
                 newReport.ReportId = report.ReportId;
+                newReport.Status = report.Status;
                 db.SaveChanges();
                 return report;
             }

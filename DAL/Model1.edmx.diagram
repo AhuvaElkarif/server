@@ -34,14 +34,14 @@
         <AssociationConnector Association="discoverIsraelModel.productToOrderToOrder" />
         <EntityTypeShape EntityType="discoverIsraelModel.category" Width="1.5" PointX="9.375" PointY="0.875" />
         <AssociationConnector Association="discoverIsraelModel.FK__attractio__Categ__34C8D9D1" />
-        <EntityTypeShape EntityType="discoverIsraelModel.report" Width="1.5" PointX="8.25" PointY="13.75" />
-        <AssociationConnector Association="discoverIsraelModel.FK_report_attraction" />
-        <AssociationConnector Association="discoverIsraelModel.FK_report_kindReport" />
-        <AssociationConnector Association="discoverIsraelModel.FK_report_users" />
         <EntityTypeShape EntityType="discoverIsraelModel.opinion" Width="1.5" PointX="5.25" PointY="7.75" />
         <AssociationConnector Association="discoverIsraelModel.opinionToAttraction" />
-        <AssociationConnector Association="discoverIsraelModel.FK_OpinionReport" />
         <AssociationConnector Association="discoverIsraelModel.opinionToUser" />
+        <EntityTypeShape EntityType="discoverIsraelModel.report" Width="1.5" PointX="8.25" PointY="13.625" />
+        <AssociationConnector Association="discoverIsraelModel.FK__report__Attracti__14270015" />
+        <AssociationConnector Association="discoverIsraelModel.FK__report__ReportId__151B244E" />
+        <AssociationConnector Association="discoverIsraelModel.FK__report__OpinionI__1332DBDC" />
+        <AssociationConnector Association="discoverIsraelModel.FK__report__UserId__123EB7A3" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

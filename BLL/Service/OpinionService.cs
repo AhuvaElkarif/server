@@ -16,6 +16,10 @@ namespace BLL.Service
         {
             return Convert.OpinionConvert.Convert(model.GetOpinions());
         }
+        public List<DTO.OpinionDTO> GetNotActiveOpinions()
+        {
+            return Convert.OpinionConvert.Convert(model.GetNotActiveOpinions());
+        }
 
         public DTO.OpinionDTO GetOpinionByopinionId(int opinionId)
         {

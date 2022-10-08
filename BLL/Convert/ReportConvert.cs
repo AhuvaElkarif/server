@@ -18,7 +18,12 @@ namespace BLL.Convert
                 UserId = obj.UserId,
                 AttractionId = obj.AttractionId,
                 ReportId = obj.ReportId,
-                OpinionId = obj.OpinionId
+                OpinionId = obj.OpinionId,
+                Status = obj.Status,
+                ReportName = obj.kindReport.Name,
+                UserName = obj.user.Name,
+                AttractionName = obj.attraction.Name,
+                CategoryName = obj.attraction.category.Name
             };
         }
 
@@ -32,7 +37,8 @@ namespace BLL.Convert
                 UserId = obj.UserId,
                 AttractionId = obj.AttractionId,
                 ReportId = obj.ReportId,
-                OpinionId = obj.OpinionId
+                OpinionId = obj.OpinionId,
+                Status = obj.Status,
             };
         }
 

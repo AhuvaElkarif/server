@@ -13,5 +13,15 @@ namespace DTO
         public Nullable<int> UserId { get; set; }
         public Nullable<int> ReportId { get; set; }
         public Nullable<int> OpinionId { get; set; }
+        public Nullable<bool> Status { get; set; }
+
+        public string ReportName { get; set; }
+        public string UserName { get; set; }
+        public string AttractionName { get; set; }
+        public string CategoryName { get; set; }
+
+
+
+
     }
 }

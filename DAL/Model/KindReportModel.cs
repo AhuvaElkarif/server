@@ -27,6 +27,8 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
+                if (db.kindReports.FirstOrDefault(x => x.Name == kindReport.Name) != null)
+                    return null;
                 kindReport = db.kindReports.Add(kindReport);
                 db.SaveChanges();
                 return kindReport;

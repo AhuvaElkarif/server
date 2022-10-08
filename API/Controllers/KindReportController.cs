@@ -22,7 +22,6 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        //[Route("api/trip/post2")]
         public IHttpActionResult Post(KindReportDTO kindReport)
         {
             try
@@ -35,7 +34,7 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
         public IHttpActionResult Put(KindReportDTO kindReport)
         {
             try

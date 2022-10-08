@@ -17,6 +17,12 @@ namespace API.Controllers
             return service.GetOpinions();
         }
 
+        [Route("Api/opinion/GetNotActiveOpinions")]
+        public List<DTO.OpinionDTO> GetNotActiveOpinions()
+        {
+            return service.GetNotActiveOpinions();
+        }
+
         public DTO.OpinionDTO GetOpinionByopinionId(int opinionId)
         {
             return service.GetOpinionByopinionId(opinionId);
