@@ -11,6 +11,7 @@ namespace DTO
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public string Img { get; set; }
         public Nullable<bool> Status { get; set; }
 
     }

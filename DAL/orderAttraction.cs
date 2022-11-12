@@ -26,6 +26,7 @@ namespace DAL
         public int GlobalPrice { get; set; }
         public Nullable<int> Amount { get; set; }
         public Nullable<int> AttractionId { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         public virtual attraction attraction { get; set; }
         public virtual user user { get; set; }

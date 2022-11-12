@@ -23,9 +23,9 @@ namespace BLL.Service
         {
             return Convert.ReportConvert.Convert(model.Post(Convert.ReportConvert.Convert(report)));
         }
-        public DTO.ReportDTO ChangeStatus(int reportId, string operation)
+        public bool ChangeStatus(int reportId, string operation)
         {
-            return Convert.ReportConvert.Convert(model.ChangeStatus(reportId, operation));
+            return model.ChangeStatus(reportId, operation);
         }
         public DTO.ReportDTO Put(DTO.ReportDTO report)
         {

@@ -20,7 +20,7 @@ namespace DTO
         public string AttractionName { get; set; }
         public string CategoryName { get; set; }
 
-
+        public OpinionDTO Opinion { get; set; }
 
 
     }

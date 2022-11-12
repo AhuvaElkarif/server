@@ -19,7 +19,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.attractions.Where(x => x.wishes.Any(y => y.UserId == userId)).ToList();
+                return db.attractions.Include("category").Include("images").Include("periods").Include("opinions").Where(x => x.wishes.Any(y => y.UserId == userId)).ToList();
             }
         }
         //public List<attraction> GetAttractionsById(int userId)

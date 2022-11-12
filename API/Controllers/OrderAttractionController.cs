@@ -15,17 +15,35 @@ namespace API.Controllers
         {
             return service.GetOrders();
         }
-
         public DTO.OrderAttractionDTO GetOrdersByOrderAttractionId(int orderAttractionId)
         {
             return service.GetOrdersByOrderAttractionId(orderAttractionId);
         }
 
-        public DTO.OrderAttractionDTO GetOrdersByUserId(int userId)
+        [Route("Api/orderAttraction/GetordersByUserId")]
+        public List<DTO.OrderAttractionDTO> GetOrdersByUserId(int userId)
         {
             return service.GetOrdersByUserId(userId);
         }
 
+        [Route("Api/orderAttraction/GetordersByManagerId")]
+        public List<DTO.OrderAttractionDTO> GetordersByManagerId(int managerId)
+        {
+            return service.GetOrdersByManagerId(managerId);
+        }
+        [HttpPut]
+        public IHttpActionResult ChangeOrderStaus(int orderId)
+        {
+            try
+            {
+                var a = service.ChangeStatus(orderId);
+                return Created("הזמנת אטרקציה שונתה", a);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPost]
         //[Route("api/trip/post2")]
         public IHttpActionResult Post(OrderAttractionDTO orderAttraction)

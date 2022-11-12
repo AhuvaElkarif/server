@@ -20,7 +20,11 @@ namespace BLL.Service
         {
             return Convert.OrderAttractionConvert.Convert(model.GetOrdersByOrderAttractionId(orderAttractionId));
         }
-        public DTO.OrderAttractionDTO GetOrdersByUserId(int userId)
+        public List<DTO.OrderAttractionDTO> GetOrdersByManagerId(int managerId)
+        {
+            return Convert.OrderAttractionConvert.Convert(model.GetOrdersByManagerId(managerId));
+        }
+        public List<DTO.OrderAttractionDTO> GetOrdersByUserId(int userId)
         {
             return Convert.OrderAttractionConvert.Convert(model.GetOrdersByUserId(userId));
         }
@@ -34,7 +38,10 @@ namespace BLL.Service
         {
             return Convert.OrderAttractionConvert.Convert(model.Put(Convert.OrderAttractionConvert.Convert(orderAttraction)));
         }
-
+        public bool ChangeStatus(int orderId)
+        {
+            return model.ChangeStatus(orderId);
+        }
         public DTO.OrderAttractionDTO Delete(OrderAttractionDTO orderAttraction)
         {
             return Convert.OrderAttractionConvert.Convert(model.Delete(Convert.OrderAttractionConvert.Convert(orderAttraction)));

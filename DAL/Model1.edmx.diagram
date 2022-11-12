@@ -28,12 +28,6 @@
         <EntityTypeShape EntityType="discoverIsraelModel.season" Width="1.5" PointX="7.375" PointY="0.875" />
         <AssociationConnector Association="discoverIsraelModel.FK__period__SeasonId__01142BA1" />
         <EntityTypeShape EntityType="discoverIsraelModel.kindReport" Width="1.5" PointX="6" PointY="17.375" />
-        <EntityTypeShape EntityType="discoverIsraelModel.orderAttraction" Width="1.5" PointX="11.25" PointY="5.75" />
-        <AssociationConnector Association="discoverIsraelModel.FK_OrderAttraction" />
-        <AssociationConnector Association="discoverIsraelModel.orderToUser" />
-        <AssociationConnector Association="discoverIsraelModel.productToOrderToOrder" />
-        <EntityTypeShape EntityType="discoverIsraelModel.category" Width="1.5" PointX="9.375" PointY="0.875" />
-        <AssociationConnector Association="discoverIsraelModel.FK__attractio__Categ__34C8D9D1" />
         <EntityTypeShape EntityType="discoverIsraelModel.opinion" Width="1.5" PointX="5.25" PointY="7.75" />
         <AssociationConnector Association="discoverIsraelModel.opinionToAttraction" />
         <AssociationConnector Association="discoverIsraelModel.opinionToUser" />
@@ -42,6 +36,12 @@
         <AssociationConnector Association="discoverIsraelModel.FK__report__ReportId__151B244E" />
         <AssociationConnector Association="discoverIsraelModel.FK__report__OpinionI__1332DBDC" />
         <AssociationConnector Association="discoverIsraelModel.FK__report__UserId__123EB7A3" />
+        <EntityTypeShape EntityType="discoverIsraelModel.category" Width="1.5" PointX="9.375" PointY="0.875" />
+        <AssociationConnector Association="discoverIsraelModel.FK__attractio__Categ__34C8D9D1" />
+        <EntityTypeShape EntityType="discoverIsraelModel.orderAttraction" Width="1.5" PointX="11.25" PointY="5.75" />
+        <AssociationConnector Association="discoverIsraelModel.FK_OrderAttraction" />
+        <AssociationConnector Association="discoverIsraelModel.orderToUser" />
+        <AssociationConnector Association="discoverIsraelModel.productToOrderToOrder" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -16,7 +16,8 @@ namespace BLL.Convert
             {
                 Id = obj.Id,
                 Name = obj.Name,
-                Status = obj.Status
+                Status = obj.Status,
+                Img = obj.Img,
             };
         }
 
@@ -28,7 +29,8 @@ namespace BLL.Convert
             {
                 Id = obj.Id,
                 Name = obj.Name,
-                Status = obj.Status
+                Status = obj.Status,
+                Img = obj.Img,
             };
         }
 

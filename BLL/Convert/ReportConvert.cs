@@ -20,10 +20,11 @@ namespace BLL.Convert
                 ReportId = obj.ReportId,
                 OpinionId = obj.OpinionId,
                 Status = obj.Status,
-                ReportName = obj.kindReport.Name,
-                UserName = obj.user.Name,
-                AttractionName = obj.attraction.Name,
-                CategoryName = obj.attraction.category.Name
+                ReportName = obj.kindReport?.Name,
+                UserName = obj.user?.Name,
+                AttractionName = obj.attraction?.Name,
+                Opinion = OpinionConvert.Convert(obj?.opinion),
+                CategoryName = obj.attraction?.category.Name
             };
         }
 

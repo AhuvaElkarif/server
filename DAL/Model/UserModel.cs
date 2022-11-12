@@ -12,7 +12,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.users.ToList();
+                return db.users.Where(x => x.Active==true).ToList();
             }
         }
         public List<user> GetManagersUsers()

@@ -10,17 +10,16 @@ namespace DAL.Model
     {
         public List<attraction> GetAttractions()
         {
-            //using (discoverIsraelEntities db = new discoverIsraelEntities())
-            //{
-            discoverIsraelEntities db = new discoverIsraelEntities();
-                return db.attractions.ToList();
-            //}
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                return db.attractions.Include("category").Include("images").Include("periods").Include("opinions").ToList();
+            }
         }
         public List<attraction> GetAttractionsByUserId(int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.attractions.Where(x => x.ManagerId == id).ToList();
+                return db.attractions.Include("category").Where(x => x.ManagerId == id).ToList();
             }
         }
 
@@ -29,14 +28,14 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.attractions.Where(x => x.ManagerId == id).ToList();
+                return db.attractions.Include("category").Where(x => x.ManagerId == id).ToList();
             }
         }
         public attraction GetAttractionByAttractionId(int attractionId)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.attractions.FirstOrDefault(x => x.Id == attractionId);
+                return db.attractions.Include("category").FirstOrDefault(x => x.Id == attractionId);
             }
         }
         public List<attraction> GetAttractionsByCategoryId(int categoryId)

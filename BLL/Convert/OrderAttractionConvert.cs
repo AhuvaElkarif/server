@@ -17,8 +17,11 @@ namespace BLL.Convert
                 Id = obj.Id,
                 OrderDate = obj.OrderDate,
                 UserId = obj.UserId,
+                Amount = obj.Amount,
                 GlobalPrice = obj.GlobalPrice,
-                AttractionId = obj.AttractionId
+                AttractionId = obj.AttractionId,
+                Attraction = AttractionConvert.Convert(obj?.attraction),
+                IsWritten = obj?.attraction.opinions.FirstOrDefault(x=> x.UserId == obj.UserId && x.AttractionId == obj.AttractionId)!=null?true:false
             };
         }
 

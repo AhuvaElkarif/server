@@ -22,7 +22,8 @@ namespace API.Controllers
         {
             return service.GetByGeneralTimeId(generalTimeId);
         }
-
+        [HttpGet]
+        [Route("api/generalTime/getByAttractionId")]
         public List<DTO.GeneralTimeDTO> GetGeneralTimesByAttractionId(int attractionId)
         {
             return service.GetGeneralTimesByAttractionId(attractionId);

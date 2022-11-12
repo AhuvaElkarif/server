@@ -27,11 +27,13 @@ namespace BLL.Convert
                 MaxParticipant = obj.MaxParticipant,
                 MinParticipant = obj.MinParticipant,
                 Price = obj.Price,
+                Phone = obj.Phone,
+                ManagerId = obj.ManagerId,
                 Status = obj.Status,
                 CategoryId = obj.CategoryId,
                 AreaId = obj.AreaId,
                 CategoryName = obj.category?.Name,
-                CountAvgGrading = obj.opinions.Any() ? obj.opinions.ToList().Average(x => x.Grading) : 0,
+                //CountAvgGrading = obj.opinions?.Average(x => x.Grading),
                 Images = string.Join(",", obj.images.Select(x => x.Img)),
                 Seasons = obj.periods.Select(x => x.SeasonId).ToArray()
             };

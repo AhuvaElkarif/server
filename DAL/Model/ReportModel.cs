@@ -10,11 +10,10 @@ namespace DAL.Model
     {
         public List<report> GetReports()
         {
-            //using (discoverIsraelEntities db = new discoverIsraelEntities())
-            //{
-            discoverIsraelEntities db = new discoverIsraelEntities();
-            return db.reports.Where(x => x.Status == true).ToList();
-            //}
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+            return db.reports.Include("attraction").Include("attraction.category").Include("user").Include("kindReport").Include("opinion").Where(x => x.Status == true).ToList();
+            }
         }
 
         public report GetReportByreportId(int id)
@@ -24,21 +23,20 @@ namespace DAL.Model
                 return db.reports.FirstOrDefault(x => x.Id == id);
             }
         }
-        public report ChangeStatus(int id, string operation)
+        public bool ChangeStatus(int id, string operation)
         {
-            //using (discoverIsraelEntities db = new discoverIsraelEntities())
-            //{
-            discoverIsraelEntities db = new discoverIsraelEntities();
-                report report = db.reports.FirstOrDefault(x => x.Id == id);
-                if (operation == "cancel")
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                report report = db.reports.Include("attraction").Include("kindReport").Include("user").Include("opinion").FirstOrDefault(x => x.Id == id);
+                if (operation == "remove")
                 {
                     opinion o = db.opinions.FirstOrDefault(x => x.Id == report.OpinionId);
                     o.Status = !o.Status;
                 }
                 report.Status = !report.Status;
                 db.SaveChanges();
-                return report;
-            //}
+                return true;
+            }
         }
         public report Post(report report)
         {

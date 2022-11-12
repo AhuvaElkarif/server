@@ -12,10 +12,11 @@ namespace API.Controllers
 
         BLL.Service.UserService service = new BLL.Service.UserService();
         [HttpGet]
-        //public List<DTO.UserDTO> GetUsers()
-        //{
-        //    return service.GetUsers();
-        //}
+        public List<DTO.UserDTO> GetUsers()
+        {
+            return service.GetUsers();
+        }
+        [Route("Api/user/GetManagersUsers")]
         public List<DTO.UserDTO> GetManagersUsers()
         {
             return service.GetManagersUsers();

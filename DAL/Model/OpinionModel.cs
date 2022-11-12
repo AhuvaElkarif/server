@@ -33,7 +33,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.opinions.Where(x => x.AttractionId == attractionId).ToList();
+                return db.opinions.Where(x => x.AttractionId == attractionId && x.Status==true).ToList();
             }
         }
         public opinion Post(opinion opinion)
