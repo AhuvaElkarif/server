@@ -27,12 +27,12 @@ namespace BLL.Service
             return Convert.EquipmentConvert.Convert(model.GetEquipmentsByAttractionId(attractionId));
         }
 
-        public DTO.EquipmentDTO Post(EquipmentDTO equipment)
+        public List<DTO.EquipmentDTO> Post(List<EquipmentDTO> equipment)
         {
             return Convert.EquipmentConvert.Convert(model.Post(Convert.EquipmentConvert.Convert(equipment)));
         }
 
-        public DTO.EquipmentDTO Put(EquipmentDTO equipment)
+        public List<DTO.EquipmentDTO> Put(List<EquipmentDTO> equipment)
         {
             return Convert.EquipmentConvert.Convert(model.Put(Convert.EquipmentConvert.Convert(equipment)));
         }

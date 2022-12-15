@@ -50,13 +50,13 @@ namespace DAL.Model
                 return image;
             }
         }
-        public image Delete(image image)
+        public bool Delete(string image)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                image newimage = db.images.Remove(image);
+                image newimage = db.images.Remove(db.images.FirstOrDefault(x=>x.Img==image));
                 db.SaveChanges();
-                return image;
+                return true;
             }
         }
     }

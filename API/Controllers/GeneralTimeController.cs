@@ -23,10 +23,10 @@ namespace API.Controllers
             return service.GetByGeneralTimeId(generalTimeId);
         }
         [HttpGet]
-        [Route("api/generalTime/getByAttractionId")]
-        public List<DTO.GeneralTimeDTO> GetGeneralTimesByAttractionId(int attractionId)
+        [Route("api/generalTime/GetGeneralTimesByPeriodId")]
+        public List<DTO.GeneralTimeDTO> GetGeneralTimesByPeriodId(int id)
         {
-            return service.GetGeneralTimesByAttractionId(attractionId);
+            return service.GetGeneralTimesByPeriodId(id);
         }
 
         [HttpPost]

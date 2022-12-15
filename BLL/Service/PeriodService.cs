@@ -17,9 +17,9 @@ namespace BLL.Service
             return Convert.PeriodConvert.Convert(model.GetPeriods());
         }
 
-        public DTO.PeriodDTO GetPeriodByPeriodId(int periodId)
+        public List<DTO.PeriodDTO> GetPeriodByAttractionId(int id)
         {
-            return Convert.PeriodConvert.Convert(model.GetPeriodByPeriodId(periodId));
+            return Convert.PeriodConvert.Convert(model.GetPeriodByAttractionId(id));
         }
 
         public DTO.PeriodDTO Post(PeriodDTO period)

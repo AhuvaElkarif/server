@@ -22,11 +22,11 @@ namespace DAL.Model
                 return db.generalTimes.FirstOrDefault(x => x.Id == generalTimeId);
             }
             }
-        public List<generalTime> GetGeneralTimesByAttractionId(int attractionId)
+        public List<generalTime> GetGeneralTimesByPeriodId(int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.generalTimes.Where(x => x.AttractionId == attractionId).ToList();
+                return db.generalTimes.Where(x => x.PeriodId == id).ToList();
 
             }
         }

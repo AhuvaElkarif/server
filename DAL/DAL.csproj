@@ -90,6 +90,7 @@
     <Compile Include="Model\AreaModel.cs" />
     <Compile Include="Model\AttractionModel.cs" />
     <Compile Include="Model\CategoryModel.cs" />
+    <Compile Include="Model\EmailModel.cs" />
     <Compile Include="Model\EquipmentModel.cs" />
     <Compile Include="Model\GeneralTimeModel.cs" />
     <Compile Include="Model\ImageModel.cs" />

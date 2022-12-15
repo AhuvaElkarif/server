@@ -25,15 +25,11 @@ namespace DAL
         public System.DateTime TillDate { get; set; }
         public Nullable<int> AttractionId { get; set; }
         public Nullable<bool> IsOpen { get; set; }
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
         public Nullable<int> SeasonId { get; set; }
     
         public virtual attraction attraction { get; set; }
+        public virtual season season { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<generalTime> generalTimes { get; set; }
-        public virtual period period1 { get; set; }
-        public virtual period period2 { get; set; }
-        public virtual season season { get; set; }
     }
 }

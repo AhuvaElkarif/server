@@ -18,8 +18,8 @@ namespace DAL
         public int AttractionId { get; set; }
         public int PeriodId { get; set; }
         public int DayInWeek { get; set; }
-        public Nullable<int> StartTime { get; set; }
-        public Nullable<int> EndTime { get; set; }
+        public Nullable<System.TimeSpan> StartTime { get; set; }
+        public Nullable<System.TimeSpan> EndTime { get; set; }
     
         public virtual attraction attraction { get; set; }
         public virtual period period { get; set; }

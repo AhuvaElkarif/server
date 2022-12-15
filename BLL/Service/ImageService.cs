@@ -60,9 +60,9 @@ namespace BLL.Service
             return Convert.ImageConvert.Convert(model.Put(Convert.ImageConvert.Convert(image)));
         }
 
-        public DTO.ImageDTO Delete(ImageDTO image)
+        public bool Delete(string image)
         {
-            return Convert.ImageConvert.Convert(model.Delete(Convert.ImageConvert.Convert(image)));
+            return model.Delete(image);
         }
 
     }

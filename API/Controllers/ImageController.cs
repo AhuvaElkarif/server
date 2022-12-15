@@ -29,7 +29,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-   
+
         public IHttpActionResult uploadImag()
         {
             try
@@ -40,6 +40,7 @@ namespace API.Controllers
                 var postedFile = httpReqest.Files["Image"];
                 var FileName = httpReqest.Params["FileName"];
                 var Id = httpReqest.Params["Id"];
+                var AttractionId = httpReqest.Params["AttractionId"];
 
                 byte[] buffer = new byte[16 * 1024];
                 byte[] data;
@@ -53,15 +54,15 @@ namespace API.Controllers
                     //return ms.ToArray();
                     data = ms.ToArray();
                 }
-                int.TryParse(Id, out int AttractionId);
+                //int.TryParse(Id, out int AttractionId);
                 ImageDTO image = new ImageDTO()
                 {
 
-                   AttractionId= AttractionId,
-                     Img = FileName?.ToString() + "." + postedFile.FileName.Split('.')[1],
+                    AttractionId = int.Parse(AttractionId),
+                    Img = FileName?.ToString()
 
                 };
-                image = service.Post(image,data);
+                image = service.Post(image, data);
                 return Created("התמונה התווספה", image);
             }
             catch (Exception e)
@@ -85,8 +86,8 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        public IHttpActionResult Delete(ImageDTO image)
+        [HttpDelete]
+        public IHttpActionResult Delete(string image)
         {
             try
             {

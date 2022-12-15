@@ -15,8 +15,8 @@ namespace DAL
     public partial class image
     {
         public int Id { get; set; }
-        public string Img { get; set; }
         public int AttractionId { get; set; }
+        public string Img { get; set; }
     
         public virtual attraction attraction { get; set; }
     }

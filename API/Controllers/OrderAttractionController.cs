@@ -31,6 +31,11 @@ namespace API.Controllers
         {
             return service.GetOrdersByManagerId(managerId);
         }
+        [Route("Api/orderAttraction/GetDaysInMonth")]
+        public Dictionary<DateTime, int> GetDaysInMonth(int id, int month, int year)
+        {
+            return service.GetDaysInMonth(id, month, year);
+        }
         [HttpPut]
         public IHttpActionResult ChangeOrderStaus(int orderId)
         {

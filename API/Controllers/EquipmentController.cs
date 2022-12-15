@@ -27,9 +27,9 @@ namespace API.Controllers
             return service.GetEquipmentsByAttractionId(attractionId);
         }
         [HttpPost]
-        //[Route("api/trip/post2")]
+        [Route("api/equipment/Post")]
 
-        public IHttpActionResult Post(EquipmentDTO equipment)
+        public IHttpActionResult Post(List<EquipmentDTO> equipment)
         {
             try
             {
@@ -41,8 +41,9 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        public IHttpActionResult Put(EquipmentDTO equipment)
+        [HttpPut]
+        [Route("api/equipment/Put")]
+        public IHttpActionResult Put(List<EquipmentDTO> equipment)
         {
             try
             {

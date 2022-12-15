@@ -30,21 +30,27 @@ namespace DAL.Model
                 return db.equipments.Where(x => x.AttractionId == attractionId).ToList();
             }
         }
-        public equipment Post(equipment equipment)
+        public List<equipment> Post(List<equipment> equipment)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                equipment = db.equipments.Add(equipment);
+                foreach (var item in equipment)
+                {
+                    db.equipments.Add(item);
+                }
                 db.SaveChanges();
                 return equipment;
             }
         }
-        public equipment Put(equipment equipment)
+        public List<equipment> Put(List<equipment> equipment)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                equipment newEquipment = db.equipments.FirstOrDefault(x => x.Id == equipment.Id);
-                newEquipment.Name = equipment.Name;
+                foreach (var item in equipment)
+                {
+                    equipment newEquipment = db.equipments.FirstOrDefault(x => x.Id == item.Id);
+                    newEquipment.Name = item.Name;
+                }
                 db.SaveChanges();
                 return equipment;
             }

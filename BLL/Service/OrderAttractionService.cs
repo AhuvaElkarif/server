@@ -28,7 +28,10 @@ namespace BLL.Service
         {
             return Convert.OrderAttractionConvert.Convert(model.GetOrdersByUserId(userId));
         }
-
+        public Dictionary<DateTime, int> GetDaysInMonth(int attractionId,int month, int year)
+        {
+            return model.GetDaysInMonth(attractionId, month, year);
+        }
         public DTO.OrderAttractionDTO Post(OrderAttractionDTO orderAttraction)
         {
             return Convert.OrderAttractionConvert.Convert(model.Post(Convert.OrderAttractionConvert.Convert(orderAttraction)));
@@ -42,6 +45,7 @@ namespace BLL.Service
         {
             return model.ChangeStatus(orderId);
         }
+
         public DTO.OrderAttractionDTO Delete(OrderAttractionDTO orderAttraction)
         {
             return Convert.OrderAttractionConvert.Convert(model.Delete(Convert.OrderAttractionConvert.Convert(orderAttraction)));

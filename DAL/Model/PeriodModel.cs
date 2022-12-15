@@ -15,20 +15,52 @@ namespace DAL.Model
                 return db.periods.ToList();
             }
         }
-        public period GetPeriodByPeriodId(int periodId)
+        public List<period> GetPeriodByAttractionId(int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.periods.FirstOrDefault(x => x.Id == periodId);
+                return db.periods.Where(x => x.AttractionId == id).ToList();
             }
+        }
+        public bool CheckRangeBetweenDates(period p)
+        {
+            if (p.FromDate > p.TillDate)
+                return false;
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                if (db.periods.FirstOrDefault(x => x.AttractionId == p.AttractionId && !(x.FromDate > p.FromDate && x.TillDate > p.TillDate || x.FromDate < p.FromDate && x.TillDate < p.TillDate)) != null)
+                    return false;
+            }
+            return true;
+        }
+        public int GetSeasonId(period p)
+        {
+            int monthFrom = p.FromDate.Month;
+            int monthTill = p.TillDate.Month;
+
+            if (monthFrom >= 1 && monthTill <= 3)
+                return 2;
+            else
+                 if (monthFrom >= 4 && monthTill <= 6)
+                return 3;
+            else
+                 if (monthFrom >= 7 && monthTill <= 9)
+                return 4;
+            else
+                return 1;
         }
         public period Post(period period)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                period = db.periods.Add(period);
-                db.SaveChanges();
-                return period;
+                if (CheckRangeBetweenDates(period))
+                {
+                    period.SeasonId = GetSeasonId(period);
+                    period = db.periods.Add(period);
+                    db.SaveChanges();
+                    return period;
+                }
+                return null;
             }
         }
         public period Put(period period)
@@ -36,11 +68,17 @@ namespace DAL.Model
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 period newPeriod = db.periods.FirstOrDefault(x => x.Id == period.Id);
-                newPeriod.FromDate = period.FromDate;
-                newPeriod.SeasonId = period.SeasonId;
-                newPeriod.TillDate = period.TillDate;
-                db.SaveChanges();
-                return period;
+               
+                if (!((newPeriod.FromDate != period.FromDate || newPeriod.TillDate != period.FromDate) && CheckRangeBetweenDates(period)))
+                {
+                    newPeriod.FromDate = period.FromDate;
+                    newPeriod.SeasonId = period.SeasonId;
+                    newPeriod.TillDate = period.TillDate;
+                    period.SeasonId = GetSeasonId(period);
+                    db.SaveChanges();
+                    return period;
+                }
+                return null;
             }
         }
         public period Delete(period period)

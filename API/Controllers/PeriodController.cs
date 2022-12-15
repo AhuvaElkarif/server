@@ -15,10 +15,11 @@ namespace API.Controllers
         {
             return service.GetPeriods();
         }
-       
-        public DTO.PeriodDTO GetAttractionByAttractionId(int periodId)
+        [HttpGet]
+        [Route("api/period/GetPeriodByAttractionId")]
+        public List<DTO.PeriodDTO> GetPeriodByAttractionId(int attractionId)
         {
-            return service.GetPeriodByPeriodId(periodId);
+            return service.GetPeriodByAttractionId(attractionId);
         }
         [HttpPost]
         //[Route("api/trip/post2")]
@@ -34,7 +35,7 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
         public IHttpActionResult Put(PeriodDTO period)
         {
             try

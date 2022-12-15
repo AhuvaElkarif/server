@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,15 +38,16 @@ namespace DAL.Model
                 return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Where(x => x.UserId == userId && x.Status == true).ToList();
             }
         }
-        public Dictionary<DateTime, int> GetOrdersUserId(int atractionId, int month, int year)
+        public Dictionary<DateTime, int> GetDaysInMonth(int atractionId, int month, int year)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 var startDate = new DateTime(year,month,1);
-                var lastDate = new DateTime(year, month, 30);
-
+                var lastDate = new DateTime(year, month, DateTime.DaysInMonth(year,month));
+                if(startDate<DateTime.Now)
+                    startDate = DateTime.Now;
                 period period = db.periods.FirstOrDefault(x => 
-                x.Id == atractionId &&
+                x.AttractionId == atractionId &&
                 x.FromDate <= startDate &&
                 x.TillDate >= lastDate);
                    
@@ -54,16 +57,16 @@ namespace DAL.Model
                 // לבדוק שהתאריכים עדיים תקפים
                // DateTime date = new DateTime(year, month, 1);
                 //&&date<=endDate
-                for (; startDate.Month == month; startDate.AddDays(1))
+                for (; startDate.Month == month; startDate=startDate.AddDays(1))
                 {
-                    generalTime generalTimes = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek));
-                    if (generalTimes != null)
-                    {
-                        int manyDay = period.attraction.MaxParticipant * (int)(((generalTimes.EndTime - generalTimes.StartTime) * 60) / period.attraction.TimeDuration);
-                        int countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate).ToList().Count();
+                    //generalTime generalTimes = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek));
+                    //if (generalTimes != null)
+                    //{
+                    //    int manyDay = period.attraction.MaxParticipant * (int)(((generalTimes.EndTime.Value - generalTimes.StartTime.Value) * 60) / period.attraction.TimeDuration);
+                    //    int countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate).ToList().Count();
 
-                        dic.Add(startDate, manyDay - countInDay);
-                    }
+                    //    dic.Add(startDate, manyDay - countInDay);
+                    //}
             }
 
                 return dic;
@@ -75,7 +78,9 @@ namespace DAL.Model
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 orderAttraction = db.orderAttractions.Add(orderAttraction);
+                user u = db.users.FirstOrDefault(x => x.Id == orderAttraction.UserId);
                 db.SaveChanges();
+                SendMessage(u, orderAttraction);
                 return orderAttraction;
             }
         }
@@ -110,6 +115,43 @@ namespace DAL.Model
                 orderAttraction newOrderAttraction = db.orderAttractions.Remove(orderAttraction);
                 db.SaveChanges();
                 return orderAttraction;
+            }
+        }
+
+        void SendMessage(user u, orderAttraction order)
+        {
+            try
+            {
+                MailMessage newMail = new MailMessage();
+                // use the Gmail SMTP Host
+                SmtpClient client = new SmtpClient();
+
+                // Follow the RFS 5321 Email Standard
+                newMail.From = new MailAddress("discoverisrael44@gmail.com");
+
+                newMail.To.Add(new MailAddress("ahuvael02@gmail.com"));// declare the email subject
+
+                newMail.Subject = "My First Email"; // use HTML for the email body
+
+                newMail.IsBodyHtml = true;
+
+                newMail.Body = "<h1> This is my first Templated Email in C# </h1>";
+
+                
+                // Port 465 for SSL communication
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                // enable SSL for encryption across channels
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("discoverisrael44@gmail.com", "discover44");
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Send(newMail); // Send the constructed mail
+                Console.WriteLine("Email Sent");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error -" + ex);
             }
         }
     }

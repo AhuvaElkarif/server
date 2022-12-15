@@ -17,7 +17,9 @@ namespace BLL.Convert
                 Id = obj.Id,
                 FromDate = obj.FromDate,
                 SeasonId = obj.SeasonId,
-                TillDate = obj.TillDate
+                TillDate = obj.TillDate,
+                AttractionId = obj.AttractionId,
+                IsOpen = obj.IsOpen,
             };
         }
 
@@ -30,7 +32,9 @@ namespace BLL.Convert
                 Id = obj.Id,
                 FromDate = obj.FromDate,
                 SeasonId = obj.SeasonId,
-                TillDate = obj.TillDate
+                TillDate = obj.TillDate,
+                AttractionId = obj.AttractionId,
+                IsOpen = obj.IsOpen,
             };
         }
 
