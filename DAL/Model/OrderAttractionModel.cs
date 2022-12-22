@@ -38,40 +38,68 @@ namespace DAL.Model
                 return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Where(x => x.UserId == userId && x.Status == true).ToList();
             }
         }
-        public Dictionary<DateTime, int> GetDaysInMonth(int atractionId, int month, int year)
+        public List<EventsInCalender> GetDaysInMonth(int atractionId, int month, int year)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                var startDate = new DateTime(year,month,1);
-                var lastDate = new DateTime(year, month, DateTime.DaysInMonth(year,month));
-                if(startDate<DateTime.Now)
+                var start = new DateTime(year, month, 1);
+                var startDate = new DateTime(year, month, 1);
+                var lastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+                if (startDate < DateTime.Now)
                     startDate = DateTime.Now;
-                period period = db.periods.FirstOrDefault(x => 
+                period period = db.periods.FirstOrDefault(x =>
                 x.AttractionId == atractionId &&
                 x.FromDate <= startDate &&
                 x.TillDate >= lastDate);
-                   
-                //.g.Where();
-                // כמה אטרקציות יכול להיות ביום
-                Dictionary<DateTime, int> dic = new Dictionary<DateTime, int>();
-                // לבדוק שהתאריכים עדיים תקפים
-               // DateTime date = new DateTime(year, month, 1);
-                //&&date<=endDate
-                for (; startDate.Month == month; startDate=startDate.AddDays(1))
+
+                List<EventsInCalender> daysInMonth = new List<EventsInCalender>();
+                for (; start.Date != startDate.Date; start = start.AddDays(1))
                 {
-                    //generalTime generalTimes = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek));
-                    //if (generalTimes != null)
-                    //{
-                    //    int manyDay = period.attraction.MaxParticipant * (int)(((generalTimes.EndTime.Value - generalTimes.StartTime.Value) * 60) / period.attraction.TimeDuration);
-                    //    int countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate).ToList().Count();
+                    daysInMonth.Add(new EventsInCalender() { start = start.Date, title = "סגור", backgroundColor = "red" });
+                }
+                for (; startDate.Month == month; startDate = startDate.AddDays(1))
+                {
+                    generalTime g = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek));
+                    if (g != null)
+                    {
+                        TimeSpan diff = (TimeSpan)(g.EndTime - g.StartTime);
+                        var manyDay = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / period.attraction.TimeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
+                        int countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate).ToList().Count();
+                        if ((int)manyDay - countInDay > 0)
+                            daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "יש כרטיסים", backgroundColor = "green" });
+                        else
+                            daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "כרטיסים אזלו", backgroundColor = "red" });
+                    }
+                    else
+                        daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "סגור", backgroundColor = "red" });
+                }
 
-                    //    dic.Add(startDate, manyDay - countInDay);
-                    //}
+                return daysInMonth;
             }
+        }
 
-                return dic;
-            }
-            }
+        //public List<EventsInCalender> GetTimesInDay(int periodId, DateTime date)
+        //{
+        //    using (discoverIsraelEntities db = new discoverIsraelEntities())
+        //    {
+        //        var day = date.DayOfWeek;
+        //        var period = db.periods.FirstOrDefault(x => x.Id == periodId);
+        //        var timeDuration = period.attraction.TimeDuration;
+        //        var times = db.generalTimes.FirstOrDefault(x => x.PeriodId == periodId && x.DayInWeek == (int)day);
+        //        List<EventsInCalender> timesInDays = new List<EventsInCalender>();
+        //        for (TimeSpan start=times.StartTime.Value; TimeSpan.Compare(times.EndTime.Value,start)>0; start=start.Add(TimeSpan.FromMinutes((double)timeDuration)))
+        //        {
+        //            var manyDay = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / period.attraction.TimeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
+        //            int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && ).GroupBy(x=> x.StartTime).ToList().Count();
+        //            if ((int)manyDay - countInDay > 0)
+        //                daysInMonth.Add(new EventsInCalender() { start = startDate, title = "יש כרטיסים", backgroundColor = "green" });
+        //            else
+        //                daysInMonth.Add(new EventsInCalender() { start = startDate, title = "כרטיסים אזלו", backgroundColor = "red" });
+        //        }
+
+        //        return timesInDays;
+        //    }
+        //}
 
         public orderAttraction Post(orderAttraction orderAttraction)
         {
@@ -122,32 +150,66 @@ namespace DAL.Model
         {
             try
             {
-                MailMessage newMail = new MailMessage();
-                // use the Gmail SMTP Host
-                SmtpClient client = new SmtpClient();
+                //MailMessage newMail = new MailMessage();
+                //// use the Gmail SMTP Host
+                //SmtpClient client = new SmtpClient();
 
-                // Follow the RFS 5321 Email Standard
-                newMail.From = new MailAddress("discoverisrael44@gmail.com");
+                //// Follow the RFS 5321 Email Standard
+                //newMail.From = new MailAddress("discoverisrael44@gmail.com");
 
-                newMail.To.Add(new MailAddress("ahuvael02@gmail.com"));// declare the email subject
+                //newMail.To.Add(new MailAddress("ahuvael02@gmail.com"));// declare the email subject
 
-                newMail.Subject = "My First Email"; // use HTML for the email body
+                //newMail.Subject = "My First Email"; // use HTML for the email body
 
-                newMail.IsBodyHtml = true;
+                //newMail.IsBodyHtml = true;
 
-                newMail.Body = "<h1> This is my first Templated Email in C# </h1>";
+                //newMail.Body = "<h1> This is my first Templated Email in C# </h1>";
 
-                
-                // Port 465 for SSL communication
-                client.Port = 587;
-                client.Host = "smtp.gmail.com";
-                // enable SSL for encryption across channels
-                client.EnableSsl = true;
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("discoverisrael44@gmail.com", "discover44");
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.Send(newMail); // Send the constructed mail
-                Console.WriteLine("Email Sent");
+
+                //// Port 465 for SSL communication
+                //client.Port = 587;
+                //client.Host = "smtp.gmail.com";
+                //// enable SSL for encryption across channels
+                //client.EnableSsl = true;
+                //client.UseDefaultCredentials = false;
+                //client.Credentials = new NetworkCredential("discoverisrael44@gmail.com", "discover44");
+                //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //client.Send(newMail); // Send the constructed mail
+                //Console.WriteLine("Email Sent");
+                MailMessage mail = new MailMessage();
+
+                //למי לשלוח (יש אפשרות להוסיף כמה נמענים) 
+                mail.To.Add("ahuvael02@gmail.com");
+
+                //כתובת מייל לשלוח ממנה
+                mail.From = new MailAddress("ahuvael02@gmail.com");
+
+                // נושא ההודעה
+                mail.Subject = "hii";
+
+                //תוכן ההודעה ב- HTML
+                mail.Body = "hjhj";
+
+                //הגדרת תוכן ההודעה ל - HTML 
+                mail.IsBodyHtml = true;
+
+                // Smtp יצירת אוביקט 
+                SmtpClient smtp = new SmtpClient();
+
+                //הגדרת השרת של גוגל
+                smtp.Host = "smtp.gmail.com";
+
+
+                //הגדרת פרטי הכניסה לחשבון גימייל
+                smtp.Credentials = new System.Net.NetworkCredential(
+        "ahuvael02@gmail.com", "0527116839");
+                //אפשור SSL (חובה(
+                smtp.EnableSsl = true;
+
+                smtp.Send(mail);
+
+
+
             }
             catch (Exception ex)
             {

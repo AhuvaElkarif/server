@@ -12,16 +12,12 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class generalTime
+    public partial class sysdiagram
     {
-        public int Id { get; set; }
-        public int AttractionId { get; set; }
-        public int PeriodId { get; set; }
-        public int DayInWeek { get; set; }
-        public Nullable<System.TimeSpan> StartTime { get; set; }
-        public Nullable<System.TimeSpan> EndTime { get; set; }
-    
-        public virtual period period { get; set; }
-        public virtual attraction attraction { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

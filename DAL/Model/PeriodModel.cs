@@ -28,7 +28,9 @@ namespace DAL.Model
                 return false;
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                if (db.periods.FirstOrDefault(x => x.AttractionId == p.AttractionId && !(x.FromDate > p.FromDate && x.TillDate > p.TillDate || x.FromDate < p.FromDate && x.TillDate < p.TillDate)) != null)
+                if (db.periods.FirstOrDefault(x => x.AttractionId == p.AttractionId && (x.FromDate >= p.FromDate && x.FromDate <= p.TillDate || x.TillDate >= p.FromDate && x.TillDate <= p.TillDate || x.FromDate > p.FromDate && x.TillDate < p.TillDate)) != null)
+
+                    //if (db.periods.FirstOrDefault(x => x.AttractionId == p.AttractionId && !(x.FromDate > p.FromDate && x.TillDate > p.TillDate || x.FromDate < p.FromDate && x.TillDate < p.TillDate)) != null)
                     return false;
             }
             return true;

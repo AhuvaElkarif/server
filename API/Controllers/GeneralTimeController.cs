@@ -18,9 +18,10 @@ namespace API.Controllers
             return service.Get();
         }
 
-        public DTO.GeneralTimeDTO GetByGeneralTimeId(int generalTimeId)
+        public List< PeriodDTOWhitTime> GetByAttractionId(int attractionId)
         {
-            return service.GetByGeneralTimeId(generalTimeId);
+            var x= service.GetByAttractionId(attractionId);
+            return x;
         }
         [HttpGet]
         [Route("api/generalTime/GetGeneralTimesByPeriodId")]
@@ -44,7 +45,7 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut]
         public IHttpActionResult Put(GeneralTimeDTO generalTime)
         {
             try
@@ -57,13 +58,13 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        public IHttpActionResult Delete(GeneralTimeDTO generalTime)
+        [HttpDelete]
+        public IHttpActionResult Delete(int generalTimeId)
         {
             try
             {
-                var gt = service.Delete(generalTime);
-                return Created("פרטים מזמן כללי נמחקו", gt);
+                service.Delete(generalTimeId);
+                return Ok("הזמנים נמחקו");
             }
             catch (Exception e)
             {

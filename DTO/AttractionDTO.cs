@@ -26,6 +26,7 @@ namespace DTO
         public Nullable<int> TimeDuration { get; set; }
         public Nullable<int> AreaId { get; set; }
         public string Phone { get; set; }
+
         public string CategoryName { get; set; }
 
         public Nullable<int> ImageId { get; set; }

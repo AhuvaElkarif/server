@@ -27,12 +27,12 @@ namespace API.Controllers
         }
 
         [Route("Api/orderAttraction/GetordersByManagerId")]
-        public List<DTO.OrderAttractionDTO> GetordersByManagerId(int managerId)
+        public List<OrderAttractionDTO> GetordersByManagerId(int managerId)
         {
             return service.GetOrdersByManagerId(managerId);
         }
         [Route("Api/orderAttraction/GetDaysInMonth")]
-        public Dictionary<DateTime, int> GetDaysInMonth(int id, int month, int year)
+        public List<EventsInCalenderDTO> GetDaysInMonth(int id, int month, int year)
         {
             return service.GetDaysInMonth(id, month, year);
         }

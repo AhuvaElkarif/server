@@ -8,6 +8,24 @@ namespace BLL.Convert
 {
     public class PeriodConvert
     {
+
+        public static DTO.PeriodDTOWhitTime ConvertTime(DAL.period obj)
+        {
+            if (obj == null)
+                return null;
+            return new DTO.PeriodDTOWhitTime()
+            {
+                Id = obj.Id,
+                FromDate = obj.FromDate,
+                SeasonId = obj.SeasonId,
+                TillDate = obj.TillDate,
+                AttractionId = obj.AttractionId,
+                IsOpen = obj.IsOpen,
+                Color = obj?.IsOpen == true ? "green" : "red",
+                times =  GeneralTimeConvert.Convert( obj.generalTimes.ToList())
+            };
+        }
+
         public static DTO.PeriodDTO Convert(DAL.period obj)
         {
             if (obj == null)
@@ -20,6 +38,7 @@ namespace BLL.Convert
                 TillDate = obj.TillDate,
                 AttractionId = obj.AttractionId,
                 IsOpen = obj.IsOpen,
+                Color = obj?.IsOpen==true? "green": "red"
             };
         }
 

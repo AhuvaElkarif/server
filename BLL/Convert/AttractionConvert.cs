@@ -33,7 +33,7 @@ namespace BLL.Convert
                 CategoryId = obj.CategoryId,
                 AreaId = obj.AreaId,
                 CategoryName = obj.category?.Name,
-                //CountAvgGrading = obj.opinions?.Average(x => x.Grading),
+                CountAvgGrading = obj.opinions.Any()? obj.opinions.Average(x => x.Grading):0,
                 Images = string.Join(",", obj.images.Select(x => x.Img)),
                 Seasons = obj.periods.Select(x => x.SeasonId).ToArray()
             };

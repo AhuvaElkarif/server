@@ -15,13 +15,14 @@ namespace DAL.Model
                 return db.generalTimes.ToList();
             }
         }
-        public generalTime GetByGeneralTimeId(int generalTimeId)
+        public List<period> GetByAttractionId(int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.generalTimes.FirstOrDefault(x => x.Id == generalTimeId);
+                List<period> dic = db.periods.Include("generalTimes").Where(x => x.AttractionId == id).ToList();
+                return dic;
             }
-            }
+        }
         public List<generalTime> GetGeneralTimesByPeriodId(int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
@@ -54,13 +55,13 @@ namespace DAL.Model
             }
 
         }
-        public generalTime Delete(generalTime generalTime)
+        public bool Delete(int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                generalTime newGeneralTime = db.generalTimes.Remove(generalTime);
+                generalTime newGeneralTime = db.generalTimes.Remove(db.generalTimes.FirstOrDefault(x => x.Id == id));
                 db.SaveChanges();
-                return generalTime;
+                return true;
             }
         }
     }

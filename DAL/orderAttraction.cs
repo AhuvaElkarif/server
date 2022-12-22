@@ -27,10 +27,11 @@ namespace DAL
         public Nullable<int> Amount { get; set; }
         public Nullable<int> AttractionId { get; set; }
         public Nullable<bool> Status { get; set; }
+        public Nullable<System.TimeSpan> StartTime { get; set; }
     
-        public virtual attraction attraction { get; set; }
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productToOrder> productToOrders { get; set; }
+        public virtual attraction attraction { get; set; }
     }
 }

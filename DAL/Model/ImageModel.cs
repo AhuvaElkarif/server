@@ -35,9 +35,13 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                image = db.images.Add(image);
-                db.SaveChanges();
-                return image;
+                if(!db.images.Where(x=> x.AttractionId == image.AttractionId && x.Img == image.Img).Any()) 
+                {
+                    image = db.images.Add(image);
+                    db.SaveChanges();
+                    return image;
+                }
+                return null;
             }
         }
         public image Put(image image)

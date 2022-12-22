@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace BLL.Convert
                 StartTime = obj.StartTime,
                 PeriodId = obj.PeriodId,
                 AttractionId = obj.AttractionId,
-                //Period = obj.period.
+                Period = PeriodConvert.Convert(obj?.period)
             };
         }
 
@@ -46,6 +47,11 @@ namespace BLL.Convert
         public static List<DTO.GeneralTimeDTO> Convert(List<DAL.generalTime> obj)
         {
             return obj.Select(x => Convert(x)).ToList();
+        }
+
+        public static List<PeriodDTOWhitTime> Convert(List<DAL.period> obj)
+        {
+            return obj.Select(x => PeriodConvert.ConvertTime(x)).ToList();
         }
     }
 }

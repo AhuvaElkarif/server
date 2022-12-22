@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="about.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="area.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -87,6 +90,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\AboutModel.cs" />
     <Compile Include="Model\AreaModel.cs" />
     <Compile Include="Model\AttractionModel.cs" />
     <Compile Include="Model\CategoryModel.cs" />
@@ -97,10 +101,12 @@
     <Compile Include="Model\KindReportModel.cs" />
     <Compile Include="Model\OpinionModel.cs" />
     <Compile Include="Model\OrderAttractionModel.cs" />
+    <Compile Include="EventsInCalender.cs" />
     <Compile Include="Model\PeriodModel.cs" />
     <Compile Include="Model\ProductToOrderModel.cs" />
     <Compile Include="Model\ReportModel.cs" />
     <Compile Include="Model\SeasonModel.cs" />
+    <Compile Include="Model\StatisticsModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Model\WishModel.cs" />
     <Compile Include="opinion.cs">
@@ -112,6 +118,7 @@
     <Compile Include="period.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="PopularAttractions.cs" />
     <Compile Include="productToOrder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -120,6 +127,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="season.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="user.cs">

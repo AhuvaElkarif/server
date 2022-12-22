@@ -17,9 +17,9 @@ namespace BLL.Service
             return Convert.GeneralTimeConvert.Convert(model.Get());
         }
 
-        public DTO.GeneralTimeDTO GetByGeneralTimeId(int generalTimeId)
+        public  List<PeriodDTOWhitTime> GetByAttractionId(int id)
         {
-            return Convert.GeneralTimeConvert.Convert(model.GetByGeneralTimeId(generalTimeId));
+            return Convert.GeneralTimeConvert.Convert(model.GetByAttractionId(id));
         }
 
         public List<DTO.GeneralTimeDTO> GetGeneralTimesByPeriodId(int id)
@@ -37,9 +37,9 @@ namespace BLL.Service
             return Convert.GeneralTimeConvert.Convert(model.Put(Convert.GeneralTimeConvert.Convert(generalTime)));
         }
 
-        public DTO.GeneralTimeDTO Delete(GeneralTimeDTO generalTime)
+        public bool Delete(int id)
         {
-            return Convert.GeneralTimeConvert.Convert(model.Delete(Convert.GeneralTimeConvert.Convert(generalTime)));
+            return model.Delete(id);
         }
 
     }

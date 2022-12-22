@@ -12,18 +12,11 @@ namespace DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class report
+    public partial class about
     {
         public int Id { get; set; }
-        public Nullable<int> AttractionId { get; set; }
-        public Nullable<int> OpinionId { get; set; }
-        public Nullable<int> ReportId { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public string HeaderText { get; set; }
+        public string ContentText { get; set; }
         public Nullable<bool> Status { get; set; }
-    
-        public virtual kindReport kindReport { get; set; }
-        public virtual user user { get; set; }
-        public virtual attraction attraction { get; set; }
-        public virtual opinion opinion { get; set; }
     }
 }

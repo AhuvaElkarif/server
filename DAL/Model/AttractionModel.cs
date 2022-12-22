@@ -19,7 +19,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.attractions.Include("category").Where(x => x.ManagerId == id).ToList();
+                return db.attractions.Include("category").Include("images").Include("periods").Include("opinions").Where(x => x.ManagerId == id).ToList();
             }
         }
 
@@ -45,6 +45,17 @@ namespace DAL.Model
                 return db.attractions.Where(x => x.CategoryId == categoryId).ToList();
             }
         }
+        //public List<PopularAttractions> GetPolpularAttractionsInLastYear()
+        //{
+        //    using (discoverIsraelEntities db = new discoverIsraelEntities())
+        //    {
+        //        DateTime now = DateTime.Now;
+        //        return db.orderAttractions.Where(x => x.OrderDate.Value.Date.Year == now.Year - 1)
+        //        .GroupBy(x => x.AttractionId).Select(x => new PopularAttractions() { label = x.key, y = x.Count() })
+        //        .ToList();
+
+        //    }
+        //}
         public attraction Post(attraction attraction)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
@@ -95,7 +106,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                attraction a = db.attractions.FirstOrDefault(x => x.Id == attractionId);
+                attraction a = db.attractions.Include("category").Include("images").Include("periods").Include("opinions").FirstOrDefault(x => x.Id == attractionId);
                 a.Status = !a.Status;
                 db.SaveChanges();
                 return a;
