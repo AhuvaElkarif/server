@@ -19,7 +19,9 @@ namespace BLL.Convert
                 UserId = obj.UserId,
                 Amount = obj.Amount,
                 GlobalPrice = obj.GlobalPrice,
+                StartTime = obj.StartTime,
                 AttractionId = obj.AttractionId,
+                UserName = obj?.user.Name,
                 Attraction = AttractionConvert.Convert(obj?.attraction),
                 IsWritten = obj?.attraction.opinions.FirstOrDefault(x => x.UserId == obj.UserId && x.AttractionId == obj.AttractionId) != null ? true : false
             };
@@ -34,6 +36,7 @@ namespace BLL.Convert
                 Id = obj.Id,
                 OrderDate = obj.OrderDate,
                 UserId = obj.UserId,
+                StartTime = obj.StartTime,
                 AttractionId = obj.AttractionId,
                 GlobalPrice = obj.GlobalPrice,
             };

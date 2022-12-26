@@ -14,7 +14,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Where(x => x.Status == true).ToList();
+                return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Include("user").Where(x => x.Status == true).ToList();
             }
         }
         public orderAttraction GetOrdersByOrderAttractionId(int orderAttractionId)
@@ -108,7 +108,11 @@ namespace DAL.Model
                 orderAttraction = db.orderAttractions.Add(orderAttraction);
                 user u = db.users.FirstOrDefault(x => x.Id == orderAttraction.UserId);
                 db.SaveChanges();
-                SendMessage(u, orderAttraction);
+                string b = "<h1> הזמנתך בוצעה בהצלחה! </h1>";
+                b += "<h4> פרטי הזמנה: </h4>";
+                b += "<p> תאריך: "+orderAttraction.OrderDate+" זמן התחלה האטרקציה "+orderAttraction.StartTime
+                    +" כמות משתתפים: "+orderAttraction.Amount+" על סך: "+orderAttraction.GlobalPrice+"</p>";
+                SendMessage(u, orderAttraction, "ההזמנה התבצעה בהצלחה!", b);
                 return orderAttraction;
             }
         }
@@ -146,69 +150,29 @@ namespace DAL.Model
             }
         }
 
-        void SendMessage(user u, orderAttraction order)
+        void SendMessage(user u, orderAttraction order, string sub, string body )
         {
             try
             {
-                //MailMessage newMail = new MailMessage();
-                //// use the Gmail SMTP Host
-                //SmtpClient client = new SmtpClient();
-
-                //// Follow the RFS 5321 Email Standard
-                //newMail.From = new MailAddress("discoverisrael44@gmail.com");
-
-                //newMail.To.Add(new MailAddress("ahuvael02@gmail.com"));// declare the email subject
-
-                //newMail.Subject = "My First Email"; // use HTML for the email body
-
-                //newMail.IsBodyHtml = true;
-
-                //newMail.Body = "<h1> This is my first Templated Email in C# </h1>";
-
-
-                //// Port 465 for SSL communication
-                //client.Port = 587;
-                //client.Host = "smtp.gmail.com";
-                //// enable SSL for encryption across channels
-                //client.EnableSsl = true;
-                //client.UseDefaultCredentials = false;
-                //client.Credentials = new NetworkCredential("discoverisrael44@gmail.com", "discover44");
-                //client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                //client.Send(newMail); // Send the constructed mail
-                //Console.WriteLine("Email Sent");
-                MailMessage mail = new MailMessage();
-
-                //למי לשלוח (יש אפשרות להוסיף כמה נמענים) 
-                mail.To.Add("ahuvael02@gmail.com");
-
-                //כתובת מייל לשלוח ממנה
-                mail.From = new MailAddress("ahuvael02@gmail.com");
-
-                // נושא ההודעה
-                mail.Subject = "hii";
-
-                //תוכן ההודעה ב- HTML
-                mail.Body = "hjhj";
-
-                //הגדרת תוכן ההודעה ל - HTML 
-                mail.IsBodyHtml = true;
-
-                // Smtp יצירת אוביקט 
-                SmtpClient smtp = new SmtpClient();
-
-                //הגדרת השרת של גוגל
-                smtp.Host = "smtp.gmail.com";
-
-
-                //הגדרת פרטי הכניסה לחשבון גימייל
-                smtp.Credentials = new System.Net.NetworkCredential(
-        "ahuvael02@gmail.com", "0527116839");
-                //אפשור SSL (חובה(
-                smtp.EnableSsl = true;
-
-                smtp.Send(mail);
-
-
+                MailMessage newMail = new MailMessage();
+                // use the Gmail SMTP Host
+                SmtpClient client = new SmtpClient();
+                // Follow the RFS 5321 Email Standard
+                newMail.From = new MailAddress("discoverisrael44@gmail.com");
+                newMail.To.Add(new MailAddress(u.Email));// declare the email subject
+                newMail.Subject = sub; // use HTML for the email body
+                newMail.IsBodyHtml = true;
+                newMail.Body = body;
+                // Port 465 for SSL communication
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                // enable SSL for encryption across channels
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("discoverisrael44@gmail.com", "discover44");
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.Send(newMail); // Send the constructed mail
+                Console.WriteLine("Email Sent");
 
             }
             catch (Exception ex)

@@ -17,9 +17,9 @@ namespace DTO
         public Nullable<bool> Status { get; set; }
         public Nullable<System.TimeSpan> StartTime { get; set; }
 
-
         public AttractionDTO Attraction;
 
+        public string UserName;
 
         public bool IsWritten;
     }
