@@ -49,6 +49,20 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut]
+        [Route("Api/orderAttraction/ChangeApproval")]
+        public IHttpActionResult ChangeApproval(int id)
+        {
+            try
+            {
+                var a = service.ChangeApproval(id);
+                return Created("אישור אטרקציה שונה", a);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPost]
         //[Route("api/trip/post2")]
         public IHttpActionResult Post(OrderAttractionDTO orderAttraction)

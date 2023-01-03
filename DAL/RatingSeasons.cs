@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTO
+namespace DAL
 {
-    public class PopularAttractionsDTO
+    public class RatingSeasons
     {
         public int y { get; set; }
-        public string label { get; set; }
+        public string name { get; set; }
+        public string color { get; set; }
     }
 }

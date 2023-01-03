@@ -57,6 +57,7 @@
     <Compile Include="Convert\ProductToOrderConvert.cs" />
     <Compile Include="Convert\ReportConvert.cs" />
     <Compile Include="Convert\SeasonConvert.cs" />
+    <Compile Include="Convert\StatistictsConvert.cs" />
     <Compile Include="Convert\UserConvert.cs" />
     <Compile Include="Convert\WishConvert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

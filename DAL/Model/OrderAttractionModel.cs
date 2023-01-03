@@ -28,7 +28,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Where(x => x.attraction.ManagerId == managerId && x.Status == true).ToList();
+                return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Include("user").Where(x => x.attraction.ManagerId == managerId && x.Status == true).ToList();
             }
         }
         public List<orderAttraction> GetOrdersByUserId(int userId)
@@ -87,11 +87,11 @@ namespace DAL.Model
         //        var timeDuration = period.attraction.TimeDuration;
         //        var times = db.generalTimes.FirstOrDefault(x => x.PeriodId == periodId && x.DayInWeek == (int)day);
         //        List<EventsInCalender> timesInDays = new List<EventsInCalender>();
-        //        for (TimeSpan start=times.StartTime.Value; TimeSpan.Compare(times.EndTime.Value,start)>0; start=start.Add(TimeSpan.FromMinutes((double)timeDuration)))
+        //        for (TimeSpan start = times.StartTime.Value; TimeSpan.Compare(times.EndTime.Value, start) > 0; start = start.Add(TimeSpan.FromMinutes((double)timeDuration)))
         //        {
         //            var manyDay = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / period.attraction.TimeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
-        //            int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && ).GroupBy(x=> x.StartTime).ToList().Count();
-        //            if ((int)manyDay - countInDay > 0)
+        //            int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && ).GroupBy(x => x.StartTime).ToList().Count();
+        //            if ((int)manyDay - countInTime > 0)
         //                daysInMonth.Add(new EventsInCalender() { start = startDate, title = "יש כרטיסים", backgroundColor = "green" });
         //            else
         //                daysInMonth.Add(new EventsInCalender() { start = startDate, title = "כרטיסים אזלו", backgroundColor = "red" });
@@ -122,7 +122,28 @@ namespace DAL.Model
             {
                 orderAttraction o = db.orderAttractions.FirstOrDefault(x => x.Id == id);
                 o.Status = !o.Status;
+                if(o.Status == false)
+                {
+                    SendMessage(o.user, o, "<h1>ביטול הזמנה</h1>", "הזמנתך בוטלה בהצלחה.");
+                }
                 db.SaveChanges();
+                return true;
+            }
+        }
+        public bool ChangeApproval(int id)
+        {
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                //foreach (var item in arr)
+                //{
+                    orderAttraction o = db.orderAttractions.FirstOrDefault(x => x.Id == id);
+                    o.IsApproval = !o.IsApproval;
+                    if (o.IsApproval == false)
+                    {
+                        SendMessage(o.user, o, "<h1> תשלום עבור הזמנה שבוטלה</h1>", "הזמנתך בוטלה ונעשה זיכוי כספי עבור התשלום שביצעת.");
+                    }
+                    db.SaveChanges();
+                //}
                 return true;
             }
         }
@@ -136,6 +157,7 @@ namespace DAL.Model
                 newOrderAttraction.GlobalPrice = orderAttraction.GlobalPrice;
                 newOrderAttraction.Amount = orderAttraction.Amount;
                 newOrderAttraction.Status = orderAttraction.Status;
+                newOrderAttraction.IsApproval = orderAttraction.IsApproval;
                 db.SaveChanges();
                 return orderAttraction;
             }
@@ -150,7 +172,7 @@ namespace DAL.Model
             }
         }
 
-        void SendMessage(user u, orderAttraction order, string sub, string body )
+        public void SendMessage(user u, orderAttraction order, string sub, string body )
         {
             try
             {

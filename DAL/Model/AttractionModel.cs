@@ -45,17 +45,7 @@ namespace DAL.Model
                 return db.attractions.Where(x => x.CategoryId == categoryId).ToList();
             }
         }
-        //public List<PopularAttractions> GetPolpularAttractionsInLastYear()
-        //{
-        //    using (discoverIsraelEntities db = new discoverIsraelEntities())
-        //    {
-        //        DateTime now = DateTime.Now;
-        //        return db.orderAttractions.Where(x => x.OrderDate.Value.Date.Year == now.Year - 1)
-        //        .GroupBy(x => x.AttractionId).Select(x => new PopularAttractions() { label = x.key, y = x.Count() })
-        //        .ToList();
-
-        //    }
-        //}
+        
         public attraction Post(attraction attraction)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
@@ -102,12 +92,27 @@ namespace DAL.Model
                 return a;
             }
         }
+        public void UpdateUsers(int id)
+        {
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                OrderAttractionModel model = new OrderAttractionModel();
+                List<orderAttraction> list = db.orderAttractions.Where(x => x.AttractionId == id).ToList();
+                foreach (var item in list)
+                {
+                    item.IsApproval = !item.IsApproval;
+                    model.SendMessage(item.user, item, "<h1> הודעה עבור הזמנתך " + item.attraction.Name + " </h1>", "<p> אנו מתנצלים אך האטרקציה נסגרה. כספך יוחזר בימים הקרובים לכל שאלה או מענה ניתן לפנות אלינו בטלפון " + item.attraction.Phone + "</p>");
+                }
+            }
+        }
         public attraction ChangeAttractionStatus(int attractionId)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 attraction a = db.attractions.Include("category").Include("images").Include("periods").Include("opinions").FirstOrDefault(x => x.Id == attractionId);
                 a.Status = !a.Status;
+                if (a.Status == false)
+                    UpdateUsers(attractionId);
                 db.SaveChanges();
                 return a;
             }

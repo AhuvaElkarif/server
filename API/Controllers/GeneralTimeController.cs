@@ -18,7 +18,7 @@ namespace API.Controllers
             return service.Get();
         }
 
-        public List< PeriodDTOWhitTime> GetByAttractionId(int attractionId)
+        public List<PeriodDTOWhitTime> GetByAttractionId(int attractionId)
         {
             var x= service.GetByAttractionId(attractionId);
             return x;

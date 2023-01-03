@@ -9,14 +9,27 @@ namespace BLL.Service
     public class StatisticService
     {
         DAL.Model.StatisticsModel model = new DAL.Model.StatisticsModel();
-        public int GetCountUsers()
+        public List<DTO.PopularAttractionsDTO> GetPolpularAttractionsInLastYear()
         {
 
+            return Convert.StatistictsConvert.Convert( model.GetPolpularAttractionsInLastYear());
+        }
+        public int GetCountUsers()
+        {
             return model.GetCountUsers();
         }
-        public int GetCountLost()
+        public int GetCountOrders()
         {
-            return model.GetCountLost();
+            return model.GetCountOrders();
+        }
+        public int GetCountAttrctions()
+        {
+            return model.GetCountAttrctions();
+        }
+        public List<DTO.PopularAttractionsDTO> GetRatingAreas()
+        {
+            return Convert.StatistictsConvert.Convert(model.GetRatingAreas());
+
         }
 
     }

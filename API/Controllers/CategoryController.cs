@@ -1,11 +1,12 @@
 ﻿using DTO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-namespace API.Controllers 
+namespace API.Controllers
 {
     public class CategoryController : ApiController
     {
@@ -42,17 +43,49 @@ namespace API.Controllers
         }
         [HttpPut]
         [Route("Api/category/ChangeStatus")]
-        public IHttpActionResult ChangeStatus(CategoryDTO category)
+        public IHttpActionResult ChangeStatus()
         {
             try
             {
-                var a = service.ChangeStatus(category);
+                //string imageName = null;
+                var httpReqest = HttpContext.Current.Request;
+                // upload image
+                var postedFile = httpReqest.Files["Img"];
+                var FileName = httpReqest.Params["FileName"];
+                var Id = httpReqest.Params["Id"];
+                var Name = httpReqest.Params["Name"];
+                byte[] data=null;
+                if (postedFile != null)
+                {
+                    byte[] buffer = new byte[16 * 1024];
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        int read;
+                        while ((read = postedFile.InputStream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            ms.Write(buffer, 0, read);
+                        }
+                        //return ms.ToArray();
+                        data = ms.ToArray();
+                    }
+                }
+                CategoryDTO c = new CategoryDTO()
+                {
+
+                    Id = int.Parse(Id),
+                    Img = FileName?.ToString(),
+                    Name = Name,
+
+                };
+                var a = service.ChangeStatus(c, data);
                 return Created("הססטוס עודכן", a);
             }
+
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
+
         }
         public IHttpActionResult Put(CategoryDTO category)
         {
@@ -66,12 +99,12 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        public IHttpActionResult Delete(CategoryDTO category)
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
         {
             try
             {
-                var a = service.Delete(category);
+                var a = service.Delete(id);
                 return Created("הקטגוריה נמחקה", a);
             }
             catch (Exception e)

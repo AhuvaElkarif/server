@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public class PopularAttractionsDTO
+    public class RatingSeasons
     {
         public int y { get; set; }
-        public string label { get; set; }
+        public string name { get; set; }
+        public string color { get; set; }
+
+
     }
 }

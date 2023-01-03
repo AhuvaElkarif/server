@@ -46,6 +46,10 @@ namespace BLL.Service
             return model.ChangeStatus(orderId);
         }
 
+        public bool ChangeApproval(int id)
+        {
+            return model.ChangeApproval(id);
+        }
         public DTO.OrderAttractionDTO Delete(OrderAttractionDTO orderAttraction)
         {
             return Convert.OrderAttractionConvert.Convert(model.Delete(Convert.OrderAttractionConvert.Convert(orderAttraction)));

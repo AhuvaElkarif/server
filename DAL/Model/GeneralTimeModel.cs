@@ -19,8 +19,25 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                List<period> dic = db.periods.Include("generalTimes").Where(x => x.AttractionId == id).ToList();
-                return dic;
+                List<period> dic = db.periods.Include("generalTimes").Where(x => x.AttractionId == id && x.TillDate >= DateTime.Now).ToList();
+                if (dic.Count > 0)
+                {
+                    DateTime min = dic[0].FromDate;
+                    period p = dic[0];
+                    List<period> list;
+                    foreach (period period in dic)
+                    {
+                        if (period.TillDate < min)
+                        {
+                            min = period.TillDate;
+                            p = period;
+                        }
+                    }
+                    list = db.periods.Include("generalTimes").Where(x => x.TillDate >= min && x.SeasonId == p.SeasonId && x.TillDate.Year == p.TillDate.Year).ToList();
+                    //List<period> dic = db.periods.Include("generalTimes").Where(x => x.AttractionId == id).ToList();
+                    return list;
+                }
+                return null;
             }
         }
         public List<generalTime> GetGeneralTimesByPeriodId(int id)

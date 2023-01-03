@@ -46,6 +46,7 @@ namespace DAL.Model
             {
                 category newCategory = db.categories.FirstOrDefault(x => x.Id == category.Id);
                 newCategory.Status = !newCategory.Status;
+                newCategory.Img = category.Img;
                 db.SaveChanges();
                 return category;
             }
@@ -57,17 +58,19 @@ namespace DAL.Model
                 category newCategory = db.categories.FirstOrDefault(x => x.Id == category.Id);
                 newCategory.Name = category.Name;
                 newCategory.Status = category.Status;
+                newCategory.Img = category.Img;
                 db.SaveChanges();
                 return category;
             }
         }
-        public category Delete(category category)
+        
+        public bool Delete(int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                category newCategory = db.categories.Remove(category);
+                category newCategory = db.categories.Remove(db.categories.FirstOrDefault(x=>x.Id==id));
                 db.SaveChanges();
-                return category;
+                return true;
             }
         }
     }

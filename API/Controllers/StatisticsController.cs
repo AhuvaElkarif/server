@@ -16,8 +16,12 @@ namespace API.Controllers
         {
             return new DTO.StatisticsDTO()
             {
+                Popular = service.GetPolpularAttractionsInLastYear(),
+                CountAttractions = service.GetCountAttrctions(),
+                CountOrders = service.GetCountOrders(),
                 CountUsers = service.GetCountUsers(),
-                CountLost = service.GetCountLost()
+                Areas = service.GetRatingAreas(),
+
             };
         }
     }

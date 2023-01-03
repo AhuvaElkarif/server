@@ -8,8 +8,13 @@ namespace DTO
 {
     public class StatisticsDTO
     {
-        public int CountLost { get; set; }
+        public List<PopularAttractionsDTO> Popular { get; set; }
+        public List<PopularAttractionsDTO> Areas { get; set; }
+
         public int CountUsers { get; set; }
+        public int CountOrders { get; set; }
+        public int CountAttractions { get; set; }
+
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    internal class PopularAttractions
+    public class PopularAttractions
     {
         public int y { get; set; }
         public string label { get; set; }

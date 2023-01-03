@@ -22,9 +22,6 @@
         <EntityTypeShape EntityType="discoverIsraelModel.image" Width="1.5" PointX="5.25" PointY="19.75" />
         <EntityTypeShape EntityType="discoverIsraelModel.generalTime" Width="1.5" PointX="13.875" PointY="5.75" />
         <AssociationConnector Association="discoverIsraelModel.generalTimeToPeriod" />
-        <EntityTypeShape EntityType="discoverIsraelModel.orderAttraction" Width="1.5" PointX="18.875" PointY="6.25" />
-        <AssociationConnector Association="discoverIsraelModel.orderToUser" />
-        <AssociationConnector Association="discoverIsraelModel.productToOrderToOrder" />
         <EntityTypeShape EntityType="discoverIsraelModel.attraction" Width="1.5" PointX="16.625" PointY="2.625" />
         <AssociationConnector Association="discoverIsraelModel.FK_attraction_Area" />
         <AssociationConnector Association="discoverIsraelModel.FK__attractio__Categ__34C8D9D1" />
@@ -33,7 +30,6 @@
         <AssociationConnector Association="discoverIsraelModel.FK__period__Attracti__7E37BEF6" />
         <AssociationConnector Association="discoverIsraelModel.FK__report__Attracti__14270015" />
         <AssociationConnector Association="discoverIsraelModel.FK_Image_attraction" />
-        <AssociationConnector Association="discoverIsraelModel.FK_OrderAttraction" />
         <AssociationConnector Association="discoverIsraelModel.FK_wish_attraction1" />
         <AssociationConnector Association="discoverIsraelModel.generalTimeToAttraction" />
         <AssociationConnector Association="discoverIsraelModel.productToOrderToAttraction" />
@@ -43,6 +39,10 @@
         <AssociationConnector Association="discoverIsraelModel.opinionToUser" />
         <EntityTypeShape EntityType="discoverIsraelModel.sysdiagram" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="discoverIsraelModel.about" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="discoverIsraelModel.orderAttraction" Width="1.5" PointX="18.875" PointY="6.25" />
+        <AssociationConnector Association="discoverIsraelModel.FK_OrderAttraction" />
+        <AssociationConnector Association="discoverIsraelModel.orderToUser" />
+        <AssociationConnector Association="discoverIsraelModel.productToOrderToOrder" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -32,8 +32,11 @@ namespace BLL.Service
         {
             return Convert.CategoryConvert.Convert(model.Post(Convert.CategoryConvert.Convert(category)));
         }
-        public DTO.CategoryDTO ChangeStatus(CategoryDTO category)
+        public DTO.CategoryDTO ChangeStatus(CategoryDTO category, byte[] data)
         {
+            ImageService img = new ImageService();
+            if(data != null)
+            img.uploadImgBytes(category.Img, data);
             return Convert.CategoryConvert.Convert(model.ChangeStatus(Convert.CategoryConvert.Convert(category)));
         }
         public DTO.CategoryDTO Put(CategoryDTO category)
@@ -41,9 +44,9 @@ namespace BLL.Service
             return Convert.CategoryConvert.Convert(model.Put(Convert.CategoryConvert.Convert(category)));
         }
 
-        public DTO.CategoryDTO Delete(CategoryDTO category)
+        public bool Delete(int id)
         {
-            return Convert.CategoryConvert.Convert(model.Delete(Convert.CategoryConvert.Convert(category)));
+            return model.Delete(id);
         }
 
     }

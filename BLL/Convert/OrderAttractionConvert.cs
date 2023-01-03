@@ -22,6 +22,8 @@ namespace BLL.Convert
                 StartTime = obj.StartTime,
                 AttractionId = obj.AttractionId,
                 UserName = obj?.user.Name,
+                IsApproval = obj.IsApproval,
+                User = UserConvert.Convert(obj?.user),
                 Attraction = AttractionConvert.Convert(obj?.attraction),
                 IsWritten = obj?.attraction.opinions.FirstOrDefault(x => x.UserId == obj.UserId && x.AttractionId == obj.AttractionId) != null ? true : false
             };
@@ -39,6 +41,7 @@ namespace BLL.Convert
                 StartTime = obj.StartTime,
                 AttractionId = obj.AttractionId,
                 GlobalPrice = obj.GlobalPrice,
+                IsApproval = obj.IsApproval,
             };
         }
 
