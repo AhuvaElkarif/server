@@ -31,5 +31,7 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<generalTime> generalTimes { get; set; }
         public virtual attraction attraction { get; set; }
+
+       
     }
 }

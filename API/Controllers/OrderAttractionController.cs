@@ -32,9 +32,9 @@ namespace API.Controllers
             return service.GetOrdersByManagerId(managerId);
         }
         [Route("Api/orderAttraction/GetDaysInMonth")]
-        public List<EventsInCalenderDTO> GetDaysInMonth(int id, int month, int year)
+        public List<EventsInCalenderDTO> GetDaysInMonth(int id, int month, int year, int amount)
         {
-            return service.GetDaysInMonth(id, month, year);
+            return service.GetDaysInMonth(id, month, year, amount);
         }
         [HttpPut]
         public IHttpActionResult ChangeOrderStaus(int orderId)
