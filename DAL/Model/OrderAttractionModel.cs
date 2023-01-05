@@ -80,7 +80,6 @@ namespace DAL.Model
                 for (int i = 0; i < periods.Count(); i++)
                 {
                     period period = periods[i];
-                    //lastDate = period.TillDate < lastDate ? period.TillDate : lastDate;
                     for (; startDate.Month == month; startDate = startDate.AddDays(1))
                     {
                         if (startDate >= period.FromDate && startDate <= period.TillDate)
@@ -96,6 +95,8 @@ namespace DAL.Model
                                 else
                                     daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "כרטיסים אזלו", backgroundColor = "red" });
                             }
+                            else
+                                daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "סגור", backgroundColor = "red" });
                         }
                         else
                         {
@@ -109,7 +110,7 @@ namespace DAL.Model
                 }
 
                 // מעבר על כל הימים שנשארו בחודש
-                for (; startDate.Month == month; startDate = startDate.AddDays(1))
+                for (; startDate.Date != lastDate.Date.AddDays(1); startDate = startDate.AddDays(1))
                 {
                     daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "סגור", backgroundColor = "red" });
                 }
@@ -141,13 +142,29 @@ namespace DAL.Model
                 return timesInDays;
             }
         }
+        public int addTempUser(user user)
+        {
+            UserModel u = new UserModel();
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                if (u.IsEmail(user.Email))
+                    user = db.users.FirstOrDefault(x => x.Email == user.Email);
+                else
+                    user = db.users.Add(user);
+                db.SaveChanges();
+                return user.Id;
+            }
 
-        public orderAttraction Post(orderAttraction orderAttraction)
+        }
+        public orderAttraction Post(orderAttraction orderAttraction, user user)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
+                if (orderAttraction.UserId == -1)
+                     orderAttraction.UserId = addTempUser(user);
                 orderAttraction = db.orderAttractions.Add(orderAttraction);
                 user u = db.users.FirstOrDefault(x => x.Id == orderAttraction.UserId);
+                orderAttraction.user = u;
                 db.SaveChanges();
                 string b = "<h1> הזמנתך בוצעה בהצלחה! </h1>";
                 b += "<h4> פרטי הזמנה: </h4>";
@@ -175,8 +192,6 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                //foreach (var item in arr)
-                //{
                 orderAttraction o = db.orderAttractions.FirstOrDefault(x => x.Id == id);
                 o.IsApproval = !o.IsApproval;
                 if (o.IsApproval == false)
@@ -184,7 +199,6 @@ namespace DAL.Model
                     SendMessage(o.user, o, "<h1> תשלום עבור הזמנה שבוטלה</h1>", "הזמנתך בוטלה ונעשה זיכוי כספי עבור התשלום שביצעת.");
                 }
                 db.SaveChanges();
-                //}
                 return true;
             }
         }

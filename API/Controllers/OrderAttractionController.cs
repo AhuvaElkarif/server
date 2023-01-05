@@ -50,6 +50,20 @@ namespace API.Controllers
             }
         }
         [HttpPut]
+        [Route("Api/orderAttraction/Update")]
+        public IHttpActionResult Put(OrderAttractionDTO o)
+        {
+            try
+            {
+                var a = service.Put(o);
+                return Created("הזמנת אטרקציה שונתה", a);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut]
         [Route("Api/orderAttraction/ChangeApproval")]
         public IHttpActionResult ChangeApproval(int id)
         {
@@ -71,19 +85,6 @@ namespace API.Controllers
             {
                 var a = service.Post(orderAttraction);
                 return Created("הזמנת אטרקציה התווספה", a);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        public IHttpActionResult Put(OrderAttractionDTO orderAttraction)
-        {
-            try
-            {
-                var a = service.Put(orderAttraction);
-                return Created("הזמנת אטרקציה עודכנה", a);
             }
             catch (Exception e)
             {

@@ -34,7 +34,7 @@ namespace BLL.Service
         }
         public DTO.OrderAttractionDTO Post(OrderAttractionDTO orderAttraction)
         {
-            return Convert.OrderAttractionConvert.Convert(model.Post(Convert.OrderAttractionConvert.Convert(orderAttraction)));
+            return Convert.OrderAttractionConvert.Convert(model.Post(Convert.OrderAttractionConvert.Convert(orderAttraction), Convert.UserConvert.Convert(orderAttraction.User)));
         }
 
         public DTO.OrderAttractionDTO Put(OrderAttractionDTO orderAttraction)
