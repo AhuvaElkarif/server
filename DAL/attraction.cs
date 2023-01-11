@@ -20,12 +20,12 @@ namespace DAL
             this.equipments = new HashSet<equipment>();
             this.periods = new HashSet<period>();
             this.reports = new HashSet<report>();
-            this.images = new HashSet<image>();
+            this.orderAttractions = new HashSet<orderAttraction>();
             this.wishes = new HashSet<wish>();
             this.generalTimes = new HashSet<generalTime>();
-            this.productToOrders = new HashSet<productToOrder>();
             this.opinions = new HashSet<opinion>();
-            this.orderAttractions = new HashSet<orderAttraction>();
+            this.productToOrders = new HashSet<productToOrder>();
+            this.images = new HashSet<image>();
         }
     
         public int Id { get; set; }
@@ -46,6 +46,8 @@ namespace DAL
         public Nullable<int> TimeDuration { get; set; }
         public Nullable<int> AreaId { get; set; }
         public string Phone { get; set; }
+        public Nullable<double> lat { get; set; }
+        public Nullable<double> lng { get; set; }
     
         public virtual area area { get; set; }
         public virtual category category { get; set; }
@@ -57,16 +59,16 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<report> reports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<image> images { get; set; }
+        public virtual ICollection<orderAttraction> orderAttractions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<wish> wishes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<generalTime> generalTimes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<productToOrder> productToOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<opinion> opinions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<orderAttraction> orderAttractions { get; set; }
+        public virtual ICollection<productToOrder> productToOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<image> images { get; set; }
     }
 }

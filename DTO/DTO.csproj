@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutDTO.cs" />
+    <Compile Include="AddingAttractionDTO.cs" />
     <Compile Include="AreaDTO.cs" />
     <Compile Include="AttractionDTO.cs" />
     <Compile Include="CategoryDTO.cs" />

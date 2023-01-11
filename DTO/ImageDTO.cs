@@ -10,6 +10,6 @@ namespace DTO
     {
         public int Id { get; set; }
         public string Img { get; set; }
-        public int AttractionId { get; set; }
+        public Nullable<int> AttractionId { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace API.Controllers
         }
         [HttpPost]
         //[Route("api/trip/post2")]
-        public IHttpActionResult Post(AttractionDTO attraction)
+        public IHttpActionResult Post(AddingAttractionDTO attraction)
         {
             try
             {

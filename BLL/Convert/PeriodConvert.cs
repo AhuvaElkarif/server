@@ -25,6 +25,21 @@ namespace BLL.Convert
                 times =  GeneralTimeConvert.Convert( obj.generalTimes.ToList())
             };
         }
+        public static DAL.period ConvertTime(DTO.PeriodDTOWhitTime obj)
+        {
+            if (obj == null)
+                return null;
+            return new DAL.period()
+            {
+                Id = obj.Id,
+                FromDate = obj.FromDate,
+                SeasonId = obj.SeasonId,
+                TillDate = obj.TillDate,
+                AttractionId = obj.AttractionId,
+                IsOpen = obj.IsOpen,
+                generalTimes = GeneralTimeConvert.Convert(obj?.times.ToList())
+            };
+        }
 
         public static DTO.PeriodDTO Convert(DAL.period obj)
         {

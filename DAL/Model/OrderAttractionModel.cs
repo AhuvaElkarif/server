@@ -89,7 +89,7 @@ namespace DAL.Model
                             {
                                 TimeSpan diff = (TimeSpan)(g.EndTime - g.StartTime);
                                 var manyDay = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / period.attraction.TimeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
-                                int countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate).ToList().Count();
+                                int countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate && x.Status==true).ToList().Count();
                                 if ((int)manyDay - countInDay >= amount && countInDay + amount >= period.attraction.MinParticipant)
                                     daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "יש כרטיסים", backgroundColor = "green" });
                                 else
@@ -134,7 +134,7 @@ namespace DAL.Model
                 for (TimeSpan start = times.StartTime.Value; TimeSpan.Compare(times.EndTime.Value, start) > 0; start = start.Add(TimeSpan.FromMinutes((double)timeDuration)))
                 {
                     var manyTime = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / timeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
-                    int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date).GroupBy(x => x.StartTime).ToList().Count();
+                    int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && x.Status==true).GroupBy(x => x.StartTime).ToList().Count();
                     //  if ((int)manyTime - countInTime > 0)
                     //    timesInDays.Add(new EventsInCalender() { start = startDate, title = "יש כרטיסים", backgroundColor = "green" });
                 }

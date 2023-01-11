@@ -45,14 +45,42 @@ namespace DAL.Model
                 return db.attractions.Where(x => x.CategoryId == categoryId).ToList();
             }
         }
-        
-        public attraction Post(attraction attraction)
+
+        public attraction Post(AddingAttraction a)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                attraction = db.attractions.Add(attraction);
+                attraction a2 = db.attractions.Add(a.Attraction);
+                UserModel user = new UserModel();
+                user.Put(a.Manager);
+                foreach (var item in a.EquipmentsList)
+                {
+                    item.AttractionId = a2.Id;
+                    db.equipments.Add(item);
+                }
+                ImageModel imageModel = new ImageModel();
+                foreach (var item in a.ImagesList)
+                {
+                    item.AttractionId = a2.Id;
+                    imageModel.Put(item);
+                }
+                foreach (var item in a.PeriodsList)
+                {
+                    PeriodModel pm = new PeriodModel();
+                    if (item?.FromDate != null)
+                    {
+                        item.AttractionId = a2.Id;
+                        period p = pm.Post(item);
+                        if (item.generalTimes != null)
+                            foreach (var item2 in item.generalTimes)
+                            {
+                                item2.PeriodId = p.Id;
+                                db.generalTimes.Add(item2);
+                            }
+                    }
+                }
                 db.SaveChanges();
-                return attraction;
+                return a2;
             }
         }
         public attraction Put(attraction attraction)
@@ -77,6 +105,8 @@ namespace DAL.Model
                 newAttraction.Phone = attraction.Phone;
                 newAttraction.CategoryId = attraction.CategoryId;
                 newAttraction.ManagerId = attraction.ManagerId;
+                newAttraction.lat = attraction.lat;
+                newAttraction.lng = attraction.lng;
                 db.SaveChanges();
                 return attraction;
             }
@@ -97,9 +127,10 @@ namespace DAL.Model
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 OrderAttractionModel model = new OrderAttractionModel();
-                List<orderAttraction> list = db.orderAttractions.Where(x => x.AttractionId == id).ToList();
+                List<orderAttraction> list = db.orderAttractions.Where(x => x.AttractionId == id && x.OrderDate >= DateTime.Now).ToList();
                 foreach (var item in list)
                 {
+                    item.Status = !item.Status;
                     item.IsApproval = !item.IsApproval;
                     model.SendMessage(item.user, item, "<h1> הודעה עבור הזמנתך " + item.attraction.Name + " </h1>", "<p> אנו מתנצלים אך האטרקציה נסגרה. כספך יוחזר בימים הקרובים לכל שאלה או מענה ניתן לפנות אלינו בטלפון " + item.attraction.Phone + "</p>");
                 }

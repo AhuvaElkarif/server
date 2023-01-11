@@ -38,7 +38,7 @@ namespace BLL.Service
             return Convert.AttractionConvert.Convert(model.GetAttractionsByCategoryId(categoryId));
         }
 
-        public DTO.AttractionDTO Post(AttractionDTO attraction)
+        public DTO.AttractionDTO Post(AddingAttractionDTO attraction)
         {
             return Convert.AttractionConvert.Convert(model.Post(Convert.AttractionConvert.Convert(attraction)));
         }

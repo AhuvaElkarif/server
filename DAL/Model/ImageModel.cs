@@ -37,6 +37,7 @@ namespace DAL.Model
             {
                 if(!db.images.Where(x=> x.AttractionId == image.AttractionId && x.Img == image.Img).Any()) 
                 {
+                    if (image.AttractionId == -1) image.AttractionId = null;
                     image = db.images.Add(image);
                     db.SaveChanges();
                     return image;
@@ -50,6 +51,7 @@ namespace DAL.Model
             {
                 image newImage = db.images.FirstOrDefault(x => x.Id == image.Id);
                 newImage.Img = image.Img;
+                newImage.AttractionId = image.AttractionId;
                 db.SaveChanges();
                 return image;
             }

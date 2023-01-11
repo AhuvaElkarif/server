@@ -53,6 +53,7 @@
     <Compile Include="about.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="AddingAttraction.cs" />
     <Compile Include="area.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

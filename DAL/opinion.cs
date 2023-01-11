@@ -28,9 +28,9 @@ namespace DAL
         public double Grading { get; set; }
         public Nullable<bool> Status { get; set; }
     
-        public virtual attraction attraction { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<report> reports { get; set; }
         public virtual user user { get; set; }
+        public virtual attraction attraction { get; set; }
     }
 }

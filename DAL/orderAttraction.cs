@@ -30,9 +30,9 @@ namespace DAL
         public Nullable<System.TimeSpan> StartTime { get; set; }
         public Nullable<bool> IsApproval { get; set; }
     
-        public virtual attraction attraction { get; set; }
-        public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<productToOrder> productToOrders { get; set; }
+        public virtual user user { get; set; }
+        public virtual attraction attraction { get; set; }
     }
 }

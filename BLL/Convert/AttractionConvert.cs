@@ -32,6 +32,8 @@ namespace BLL.Convert
                 Status = obj.Status,
                 CategoryId = obj.CategoryId,
                 AreaId = obj.AreaId,
+                lat = obj.lat,
+                lng = obj.lng,
                 CategoryName = obj.category?.Name,
                 CountAvgGrading = obj.opinions.Any()? obj.opinions.Average(x => x.Grading):0,
                 Images = string.Join(",", obj.images.Select(x => x.Img)),
@@ -64,6 +66,8 @@ namespace BLL.Convert
                 Phone = obj.Phone,
                 CategoryId = obj.CategoryId,
                 ManagerId = obj.ManagerId,
+                lat = obj.lat,
+                lng = obj.lng,
             };
         }
 
@@ -74,6 +78,20 @@ namespace BLL.Convert
         public static List<DTO.AttractionDTO> Convert(List<DAL.attraction> obj)
         {
             return obj.Select(x => Convert(x)).ToList();
+        }
+
+        public static DAL.AddingAttraction Convert(DTO.AddingAttractionDTO obj)
+        {
+            if (obj == null)
+                return null;
+            return new DAL.AddingAttraction()
+            {
+                PeriodsList = PeriodConvert.Convert(obj.PeriodsList),
+                Manager = UserConvert.Convert(obj.Manager),
+                ImagesList = ImageConvert.Convert(obj.ImagesList),
+                EquipmentsList = EquipmentConvert.Convert(obj.EquipmentsList),
+                Attraction = Convert(obj.Attraction)
+            };
         }
     }
 }

@@ -37,7 +37,7 @@ namespace DAL.Model
                     //List<period> dic = db.periods.Include("generalTimes").Where(x => x.AttractionId == id).ToList();
                     return list;
                 }
-                return null;
+                return dic;
             }
         }
         public List<generalTime> GetGeneralTimesByPeriodId(int id)

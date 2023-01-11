@@ -26,6 +26,8 @@ namespace DTO
         public Nullable<int> TimeDuration { get; set; }
         public Nullable<int> AreaId { get; set; }
         public string Phone { get; set; }
+        public Nullable<double> lat { get; set; }
+        public Nullable<double> lng { get; set; }
 
         public string CategoryName { get; set; }
 

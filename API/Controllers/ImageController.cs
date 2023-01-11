@@ -58,7 +58,7 @@ namespace API.Controllers
                 ImageDTO image = new ImageDTO()
                 {
 
-                    AttractionId = int.Parse(AttractionId),
+                    AttractionId = AttractionId != "undefined" ? int.Parse(AttractionId):-1,
                     Img = FileName?.ToString()
 
                 };

@@ -28,9 +28,10 @@ namespace DAL.Model
                 return false;
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                if (db.periods.FirstOrDefault(x => x.AttractionId == p.AttractionId && (x.FromDate >= p.FromDate && x.FromDate <= p.TillDate || x.TillDate >= p.FromDate && x.TillDate <= p.TillDate || x.FromDate > p.FromDate && x.TillDate < p.TillDate)) != null)
+                if (db.periods.FirstOrDefault(x => x.AttractionId == p.AttractionId && (p.FromDate >= x.FromDate && p.FromDate <= x.TillDate ||
+                                                                                        p.TillDate >= x.FromDate && p.TillDate <= x.TillDate ||
+                                                                                        x.FromDate > p.FromDate && x.TillDate < p.TillDate)) != null)
 
-                    //if (db.periods.FirstOrDefault(x => x.AttractionId == p.AttractionId && !(x.FromDate > p.FromDate && x.TillDate > p.TillDate || x.FromDate < p.FromDate && x.TillDate < p.TillDate)) != null)
                     return false;
             }
             return true;
@@ -55,14 +56,10 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                if (CheckRangeBetweenDates(period))
-                {
-                    period.SeasonId = GetSeasonId(period);
-                    period = db.periods.Add(period);
-                    db.SaveChanges();
-                    return period;
-                }
-                return null;
+                period.SeasonId = GetSeasonId(period);
+                period = db.periods.Add(period);
+                db.SaveChanges();
+                return period;
             }
         }
         public period Put(period period)
@@ -70,7 +67,7 @@ namespace DAL.Model
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 period newPeriod = db.periods.FirstOrDefault(x => x.Id == period.Id);
-               
+
                 if (!((newPeriod.FromDate != period.FromDate || newPeriod.TillDate != period.FromDate) && CheckRangeBetweenDates(period)))
                 {
                     newPeriod.FromDate = period.FromDate;
