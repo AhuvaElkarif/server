@@ -33,7 +33,7 @@ namespace DAL.Model
                             p = period;
                         }
                     }
-                    list = db.periods.Include("generalTimes").Where(x => x.TillDate >= min && x.SeasonId == p.SeasonId && x.TillDate.Year == p.TillDate.Year).ToList();
+                    list = db.periods.Include("generalTimes").Where(x => x.Id==p.Id && x.TillDate >= min && x.SeasonId == p.SeasonId && x.TillDate.Year == p.TillDate.Year).ToList();
                     //List<period> dic = db.periods.Include("generalTimes").Where(x => x.AttractionId == id).ToList();
                     return list;
                 }
@@ -44,7 +44,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.generalTimes.Where(x => x.PeriodId == id).ToList();
+                return db.generalTimes.Include("period").Where(x => x.PeriodId == id).ToList();
 
             }
         }
@@ -65,7 +65,6 @@ namespace DAL.Model
                 newGeneralTime.DayInWeek = generalTime.DayInWeek;
                 newGeneralTime.EndTime = generalTime.EndTime;
                 newGeneralTime.StartTime = generalTime.StartTime;
-                newGeneralTime.AttractionId = generalTime.AttractionId;
                 newGeneralTime.PeriodId = generalTime.PeriodId;
                 db.SaveChanges();
                 return generalTime;

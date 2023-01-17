@@ -69,6 +69,7 @@ namespace BLL.Convert
                 TillDate = obj.TillDate,
                 AttractionId = obj.AttractionId,
                 IsOpen = obj.IsOpen,
+                generalTimes = obj.GeneralTimes==null ? null :  GeneralTimeConvert.Convert(obj.GeneralTimes),
             };
         }
 

@@ -16,7 +16,8 @@ namespace BLL.Convert
             {
                title = obj.title,
                start = obj.start,
-               backgroundColor = obj.backgroundColor
+               backgroundColor = obj.backgroundColor,
+               disabled = obj.backgroundColor!="red"
             };
         }
 

@@ -22,7 +22,6 @@ namespace DAL
             this.reports = new HashSet<report>();
             this.orderAttractions = new HashSet<orderAttraction>();
             this.wishes = new HashSet<wish>();
-            this.generalTimes = new HashSet<generalTime>();
             this.opinions = new HashSet<opinion>();
             this.productToOrders = new HashSet<productToOrder>();
             this.images = new HashSet<image>();
@@ -62,8 +61,6 @@ namespace DAL
         public virtual ICollection<orderAttraction> orderAttractions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<wish> wishes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<generalTime> generalTimes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<opinion> opinions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

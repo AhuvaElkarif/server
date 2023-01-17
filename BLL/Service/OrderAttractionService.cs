@@ -32,6 +32,10 @@ namespace BLL.Service
         {
             return Convert.EventsInCalenderConvert.Convert(model.GetDaysInMonth(attractionId, month, year,amount));
         }
+        public List<TimesInCalenderDTO> GetTimesInDay(int day, int month, int year, int id)
+        {
+            return Convert.TimesInCalenderConvert.Convert(model.GetTimesInDay(day, month,year, id));
+        }
         public DTO.OrderAttractionDTO Post(OrderAttractionDTO orderAttraction)
         {
             return Convert.OrderAttractionConvert.Convert(model.Post(Convert.OrderAttractionConvert.Convert(orderAttraction), Convert.UserConvert.Convert(orderAttraction.User)));

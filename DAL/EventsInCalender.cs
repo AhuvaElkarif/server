@@ -11,5 +11,6 @@ namespace DAL
         public string title { get; set; }
         public DateTime start { get; set; }
         public string backgroundColor { get; set; }
+        public bool disabled { get; set; }
     }
 }

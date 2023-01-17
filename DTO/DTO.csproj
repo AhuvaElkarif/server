@@ -61,6 +61,7 @@
     <Compile Include="ReportDTO.cs" />
     <Compile Include="SeasonDTO.cs" />
     <Compile Include="StatisticsDTO.cs" />
+    <Compile Include="TimesInCalenderDTO.cs" />
     <Compile Include="UserDTO.cs" />
     <Compile Include="WishDTO.cs" />
   </ItemGroup>

@@ -15,13 +15,11 @@ namespace DAL
     public partial class generalTime
     {
         public int Id { get; set; }
-        public int AttractionId { get; set; }
-        public int PeriodId { get; set; }
+        public Nullable<int> PeriodId { get; set; }
         public int DayInWeek { get; set; }
         public Nullable<System.TimeSpan> StartTime { get; set; }
         public Nullable<System.TimeSpan> EndTime { get; set; }
     
         public virtual period period { get; set; }
-        public virtual attraction attraction { get; set; }
     }
 }

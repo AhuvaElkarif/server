@@ -55,8 +55,9 @@ namespace API.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        public IHttpActionResult Delete(EquipmentDTO equipment)
+        [HttpDelete]
+        [Route("api/equipment/Delete")]
+        public IHttpActionResult Delete(List<EquipmentDTO> equipment)
         {
             try
             {

@@ -68,16 +68,12 @@ namespace DAL.Model
             {
                 period newPeriod = db.periods.FirstOrDefault(x => x.Id == period.Id);
 
-                if (!((newPeriod.FromDate != period.FromDate || newPeriod.TillDate != period.FromDate) && CheckRangeBetweenDates(period)))
-                {
-                    newPeriod.FromDate = period.FromDate;
-                    newPeriod.SeasonId = period.SeasonId;
-                    newPeriod.TillDate = period.TillDate;
-                    period.SeasonId = GetSeasonId(period);
-                    db.SaveChanges();
-                    return period;
-                }
-                return null;
+                newPeriod.FromDate = period.FromDate;
+                newPeriod.IsOpen = period.IsOpen;
+                newPeriod.TillDate = period.TillDate;
+                newPeriod.SeasonId = GetSeasonId(period);
+                db.SaveChanges();
+                return period;
             }
         }
         public period Delete(period period)

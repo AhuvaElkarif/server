@@ -36,6 +36,12 @@ namespace API.Controllers
         {
             return service.GetDaysInMonth(id, month, year, amount);
         }
+        [HttpGet]
+        [Route("Api/orderAttraction/GetTimesInDay")]
+        public List<TimesInCalenderDTO> GetTimesInDay(int day, int month, int year, int id)
+        {
+            return service.GetTimesInDay(day, month, year, id);
+        }
         [HttpPut]
         public IHttpActionResult ChangeOrderStaus(int orderId)
         {

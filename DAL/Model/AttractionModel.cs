@@ -45,49 +45,51 @@ namespace DAL.Model
                 return db.attractions.Where(x => x.CategoryId == categoryId).ToList();
             }
         }
+        public int GetSeasonId(period p)
+        {
+            int monthFrom = p.FromDate.Month;
+            int monthTill = p.TillDate.Month;
 
+            if (monthFrom >= 1 && monthTill <= 3)
+                return 2;
+            else
+                 if (monthFrom >= 4 && monthTill <= 6)
+                return 3;
+            else
+                 if (monthFrom >= 7 && monthTill <= 9)
+                return 4;
+            else
+                return 1;
+        }
         public attraction Post(AddingAttraction a)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 attraction a2 = db.attractions.Add(a.Attraction);
-                UserModel user = new UserModel();
-                user.Put(a.Manager);
-                foreach (var item in a.EquipmentsList)
-                {
-                    item.AttractionId = a2.Id;
-                    db.equipments.Add(item);
-                }
+                a.Attraction.equipments = a.EquipmentsList;
+                a.Attraction.user = a.Manager;
+                foreach (var item in a.PeriodsList)
+                    item.SeasonId = GetSeasonId(item);
+                a.Attraction.periods = a.PeriodsList;
+
+                db.SaveChanges();
                 ImageModel imageModel = new ImageModel();
                 foreach (var item in a.ImagesList)
                 {
                     item.AttractionId = a2.Id;
                     imageModel.Put(item);
                 }
-                foreach (var item in a.PeriodsList)
-                {
-                    PeriodModel pm = new PeriodModel();
-                    if (item?.FromDate != null)
-                    {
-                        item.AttractionId = a2.Id;
-                        period p = pm.Post(item);
-                        if (item.generalTimes != null)
-                            foreach (var item2 in item.generalTimes)
-                            {
-                                item2.PeriodId = p.Id;
-                                db.generalTimes.Add(item2);
-                            }
-                    }
-                }
+               
                 db.SaveChanges();
                 return a2;
             }
         }
+
         public attraction Put(attraction attraction)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                attraction newAttraction = db.attractions.FirstOrDefault(x => x.Id == attraction.Id);
+                attraction newAttraction = db.attractions.Include("category").Include("images").Include("periods").Include("opinions").FirstOrDefault(x => x.Id == attraction.Id);
                 newAttraction.Address = attraction.Address;
                 newAttraction.Name = attraction.Name;
                 newAttraction.Date = attraction.Date;
@@ -108,7 +110,7 @@ namespace DAL.Model
                 newAttraction.lat = attraction.lat;
                 newAttraction.lng = attraction.lng;
                 db.SaveChanges();
-                return attraction;
+                return newAttraction;
             }
         }
 

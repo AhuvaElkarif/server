@@ -43,7 +43,7 @@ namespace DAL.Model
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 var start = new DateTime(year, month, 1);
-                var startDate = new DateTime(year, month, 1);
+                var startDate = new DateTime(year, month, 1).Date;
                 List<EventsInCalender> daysInMonth = new List<EventsInCalender>();
                 var lastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
@@ -60,12 +60,13 @@ namespace DAL.Model
                                        && (x.TillDate >= lastDate
                                        || (x.TillDate.Year == startDate.Year
                                        && x.TillDate.Month == startDate.Month))).ToList();
-                // במידה ולא נמצאו כלל תקופות
-                if (periods == null)
+                //  במידה ולא נמצאו כלל תקופות
+                //  או שהתאריך כבר חלף
+                if (periods == null || (month!=startDate.Month && year!=startDate.Year))
                 {
                     for (var s = start; s.Month == month; s = s.AddDays(1))
                     {
-                        daysInMonth.Add(new EventsInCalender() { start = start.Date, title = "סגור", backgroundColor = "red" });
+                        daysInMonth.Add(new EventsInCalender() { start = start, title = "סגור", backgroundColor = "red" });
                     }
                     return daysInMonth;
                 }
@@ -73,10 +74,11 @@ namespace DAL.Model
                 // מעבר על כל הימים שעברו כבר בחודש הנוכחי והצגת הודעה מתאימה
                 for (; start.Date != startDate.Date; start = start.AddDays(1))
                 {
-                    daysInMonth.Add(new EventsInCalender() { start = start.Date, title = "סגור", backgroundColor = "red" });
+                    daysInMonth.Add(new EventsInCalender() { start = start, title = "סגור", backgroundColor = "red" });
                 }
                 // מיון הרשימה לפי תאריכי החודש
                 periods = periods.OrderBy(p => p.FromDate).ToList();
+                DateTime d = startDate.Date;
                 for (int i = 0; i < periods.Count(); i++)
                 {
                     period period = periods[i];
@@ -84,19 +86,19 @@ namespace DAL.Model
                     {
                         if (startDate >= period.FromDate && startDate <= period.TillDate)
                         {
-                            generalTime g = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek));
+                            generalTime g = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek+1));
                             if (g != null)
                             {
                                 TimeSpan diff = (TimeSpan)(g.EndTime - g.StartTime);
                                 var manyDay = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / period.attraction.TimeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
-                                int countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate && x.Status==true).ToList().Count();
-                                if ((int)manyDay - countInDay >= amount && countInDay + amount >= period.attraction.MinParticipant)
-                                    daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "יש כרטיסים", backgroundColor = "green" });
+                                var countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate.Date && x.Status==true)?.Sum(x=>x.Amount);
+                                if (countInDay!=null && (int)manyDay - countInDay >= amount && countInDay + amount >= period.attraction.MinParticipant)
+                                    daysInMonth.Add(new EventsInCalender() { start = startDate, title = "יש כרטיסים", backgroundColor = "green" });
                                 else
-                                    daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "כרטיסים אזלו", backgroundColor = "red" });
+                                    daysInMonth.Add(new EventsInCalender() { start = startDate, title = "כרטיסים אזלו", backgroundColor = "red" });
                             }
                             else
-                                daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "סגור", backgroundColor = "red" });
+                                daysInMonth.Add(new EventsInCalender() { start = startDate, title = "סגור", backgroundColor = "red" });
                         }
                         else
                         {
@@ -117,16 +119,16 @@ namespace DAL.Model
                 return daysInMonth;
             }
         }
-
-        public List<EventsInCalender> GetTimesInDay(DateTime date, int attractionId)
+        public List<TimesInCalender> GetTimesInDay(int day, int month, int year, int id)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                var day = date.DayOfWeek;
-                var period = db.periods.FirstOrDefault(x => x.Id == attractionId && x.FromDate <= date && x.TillDate >= date);
+                var date = new DateTime(year,month,day);
+                var dayInWeek = date.DayOfWeek;
+                var period = db.periods.FirstOrDefault(x => x.AttractionId == id && x.FromDate <= date && x.TillDate >= date);
                 var timeDuration = period.attraction.TimeDuration;
-                var times = db.generalTimes.FirstOrDefault(x => x.PeriodId == period.Id && x.DayInWeek == (int)day);
-                List<EventsInCalender> timesInDays = new List<EventsInCalender>();
+                var times = db.generalTimes.FirstOrDefault(x => x.PeriodId == period.Id && x.DayInWeek == (int)dayInWeek);
+                List<TimesInCalender> timesInDays = new List<TimesInCalender>();
 
                 if (times == null)
                     return null;
@@ -135,8 +137,8 @@ namespace DAL.Model
                 {
                     var manyTime = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / timeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
                     int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && x.Status==true).GroupBy(x => x.StartTime).ToList().Count();
-                    //  if ((int)manyTime - countInTime > 0)
-                    //    timesInDays.Add(new EventsInCalender() { start = startDate, title = "יש כרטיסים", backgroundColor = "green" });
+                    if ((int)manyTime - countInTime > 0)
+                        timesInDays.Add(new TimesInCalender() { start = start });
                 }
 
                 return timesInDays;
@@ -168,7 +170,7 @@ namespace DAL.Model
                 db.SaveChanges();
                 string b = "<h1> הזמנתך בוצעה בהצלחה! </h1>";
                 b += "<h4> פרטי הזמנה: </h4>";
-                b += "<p> תאריך: " + orderAttraction.OrderDate + " זמן התחלה האטרקציה " + orderAttraction.StartTime
+                b += "<p> תאריך: " + orderAttraction.OrderDate.Date + " זמן התחלה האטרקציה " + orderAttraction.StartTime
                     + " כמות משתתפים: " + orderAttraction.Amount + " על סך: " + orderAttraction.GlobalPrice + "</p>";
                 SendMessage(u, orderAttraction, "ההזמנה התבצעה בהצלחה!", b);
                 return orderAttraction;
@@ -235,7 +237,7 @@ namespace DAL.Model
                 // use the Gmail SMTP Host
                 SmtpClient client = new SmtpClient();
                 // Follow the RFS 5321 Email Standard
-                newMail.From = new MailAddress("discoverisrael44@gmail.com");
+                newMail.From = new MailAddress("discoverisrael48@gmail.com");
                 newMail.To.Add(new MailAddress(u.Email));// declare the email subject
                 newMail.Subject = sub; // use HTML for the email body
                 newMail.IsBodyHtml = true;
@@ -246,7 +248,7 @@ namespace DAL.Model
                 // enable SSL for encryption across channels
                 client.EnableSsl = true;
                 client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential("discoverisrael44@gmail.com", "discover44");
+                client.Credentials = new NetworkCredential("discoverisrael48@gmail.com", "mfcojhirmalvljxy");
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.Send(newMail); // Send the constructed mail
                 Console.WriteLine("Email Sent");

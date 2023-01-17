@@ -34,7 +34,6 @@ namespace DAL
         public virtual DbSet<report> reports { get; set; }
         public virtual DbSet<category> categories { get; set; }
         public virtual DbSet<period> periods { get; set; }
-        public virtual DbSet<generalTime> generalTimes { get; set; }
         public virtual DbSet<opinion> opinions { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<about> abouts { get; set; }
@@ -42,5 +41,6 @@ namespace DAL
         public virtual DbSet<user> users { get; set; }
         public virtual DbSet<attraction> attractions { get; set; }
         public virtual DbSet<image> images { get; set; }
+        public virtual DbSet<generalTime> generalTimes { get; set; }
     }
 }

@@ -55,13 +55,16 @@ namespace DAL.Model
                 return equipment;
             }
         }
-        public equipment Delete(equipment equipment)
+        public bool Delete(List<equipment> equipment)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                equipment newEquipment = db.equipments.Remove(equipment);
+                foreach (var item in equipment)
+                {
+                    equipment newEquipment = db.equipments.Remove(db.equipments.FirstOrDefault(x => x.Id == item.Id));
+                }
                 db.SaveChanges();
-                return equipment;
+                return true;
             }
         }
     }

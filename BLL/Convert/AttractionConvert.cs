@@ -90,7 +90,7 @@ namespace BLL.Convert
                 Manager = UserConvert.Convert(obj.Manager),
                 ImagesList = ImageConvert.Convert(obj.ImagesList),
                 EquipmentsList = EquipmentConvert.Convert(obj.EquipmentsList),
-                Attraction = Convert(obj.Attraction)
+                Attraction = Convert(obj.Attraction),
             };
         }
     }

@@ -68,8 +68,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AttractionId" Type="int" Nullable="false" />
-          <Property Name="PeriodId" Type="int" Nullable="false" />
+          <Property Name="PeriodId" Type="int" />
           <Property Name="DayInWeek" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="time" Precision="7" />
           <Property Name="EndTime" Type="time" Precision="7" />
@@ -354,20 +353,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="generalTimeToAttraction">
-          <End Role="attraction" Type="Self.attraction" Multiplicity="1" />
-          <End Role="generalTime" Type="Self.generalTime" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="attraction">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="generalTime">
-              <PropertyRef Name="AttractionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="generalTimeToPeriod">
-          <End Role="period" Type="Self.period" Multiplicity="1" />
+          <End Role="period" Type="Self.period" Multiplicity="0..1" />
           <End Role="generalTime" Type="Self.generalTime" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="period">
@@ -512,10 +499,6 @@
             <End Role="users" EntitySet="users" />
             <End Role="wish" EntitySet="wish" />
           </AssociationSet>
-          <AssociationSet Name="generalTimeToAttraction" Association="Self.generalTimeToAttraction">
-            <End Role="attraction" EntitySet="attraction" />
-            <End Role="generalTime" EntitySet="generalTime" />
-          </AssociationSet>
           <AssociationSet Name="generalTimeToPeriod" Association="Self.generalTimeToPeriod">
             <End Role="period" EntitySet="period" />
             <End Role="generalTime" EntitySet="generalTime" />
@@ -576,11 +559,6 @@
           <AssociationSet Name="FK__period__SeasonId__01142BA1" Association="discoverIsraelModel.FK__period__SeasonId__01142BA1">
             <End Role="season" EntitySet="seasons" />
             <End Role="period" EntitySet="periods" />
-          </AssociationSet>
-          <EntitySet Name="generalTimes" EntityType="discoverIsraelModel.generalTime" />
-          <AssociationSet Name="generalTimeToPeriod" Association="discoverIsraelModel.generalTimeToPeriod">
-            <End Role="period" EntitySet="periods" />
-            <End Role="generalTime" EntitySet="generalTimes" />
           </AssociationSet>
           <EntitySet Name="opinions" EntityType="discoverIsraelModel.opinion" />
           <AssociationSet Name="FK__report__OpinionI__1332DBDC" Association="discoverIsraelModel.FK__report__OpinionI__1332DBDC">
@@ -644,10 +622,6 @@
             <End Role="attraction" EntitySet="attractions" />
             <End Role="wish" EntitySet="wishes" />
           </AssociationSet>
-          <AssociationSet Name="generalTimeToAttraction" Association="discoverIsraelModel.generalTimeToAttraction">
-            <End Role="attraction" EntitySet="attractions" />
-            <End Role="generalTime" EntitySet="generalTimes" />
-          </AssociationSet>
           <AssociationSet Name="opinionToAttraction" Association="discoverIsraelModel.opinionToAttraction">
             <End Role="attraction" EntitySet="attractions" />
             <End Role="opinion" EntitySet="opinions" />
@@ -660,6 +634,11 @@
           <AssociationSet Name="FK_Image_attraction" Association="discoverIsraelModel.FK_Image_attraction">
             <End Role="attraction" EntitySet="attractions" />
             <End Role="image" EntitySet="images" />
+          </AssociationSet>
+          <EntitySet Name="generalTimes" EntityType="discoverIsraelModel.generalTime" />
+          <AssociationSet Name="generalTimeToPeriod" Association="discoverIsraelModel.generalTimeToPeriod">
+            <End Role="period" EntitySet="periods" />
+            <End Role="generalTime" EntitySet="generalTimes" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="equipment">
@@ -753,8 +732,8 @@
           <Property Name="IsOpen" Type="Boolean" />
           <Property Name="SeasonId" Type="Int32" />
           <NavigationProperty Name="season" Relationship="discoverIsraelModel.FK__period__SeasonId__01142BA1" FromRole="period" ToRole="season" />
-          <NavigationProperty Name="generalTimes" Relationship="discoverIsraelModel.generalTimeToPeriod" FromRole="period" ToRole="generalTime" />
           <NavigationProperty Name="attraction" Relationship="discoverIsraelModel.FK__period__Attracti__7E37BEF6" FromRole="period" ToRole="attraction" />
+          <NavigationProperty Name="generalTimes" Relationship="discoverIsraelModel.generalTimeToPeriod" FromRole="period" ToRole="generalTime" />
         </EntityType>
         <Association Name="FK__period__SeasonId__01142BA1">
           <End Type="discoverIsraelModel.season" Role="season" Multiplicity="0..1" />
@@ -765,31 +744,6 @@
             </Principal>
             <Dependent Role="period">
               <PropertyRef Name="SeasonId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="generalTime">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AttractionId" Type="Int32" Nullable="false" />
-          <Property Name="PeriodId" Type="Int32" Nullable="false" />
-          <Property Name="DayInWeek" Type="Int32" Nullable="false" />
-          <Property Name="StartTime" Type="Time" Precision="7" />
-          <Property Name="EndTime" Type="Time" Precision="7" />
-          <NavigationProperty Name="period" Relationship="discoverIsraelModel.generalTimeToPeriod" FromRole="generalTime" ToRole="period" />
-          <NavigationProperty Name="attraction" Relationship="discoverIsraelModel.generalTimeToAttraction" FromRole="generalTime" ToRole="attraction" />
-        </EntityType>
-        <Association Name="generalTimeToPeriod">
-          <End Type="discoverIsraelModel.period" Role="period" Multiplicity="1" />
-          <End Type="discoverIsraelModel.generalTime" Role="generalTime" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="period">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="generalTime">
-              <PropertyRef Name="PeriodId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -965,7 +919,6 @@
           <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__Attracti__14270015" FromRole="attraction" ToRole="report" />
           <NavigationProperty Name="orderAttractions" Relationship="discoverIsraelModel.FK_OrderAttraction" FromRole="attraction" ToRole="orderAttraction" />
           <NavigationProperty Name="wishes" Relationship="discoverIsraelModel.FK_wish_attraction1" FromRole="attraction" ToRole="wish" />
-          <NavigationProperty Name="generalTimes" Relationship="discoverIsraelModel.generalTimeToAttraction" FromRole="attraction" ToRole="generalTime" />
           <NavigationProperty Name="opinions" Relationship="discoverIsraelModel.opinionToAttraction" FromRole="attraction" ToRole="opinion" />
           <NavigationProperty Name="productToOrders" Relationship="discoverIsraelModel.productToOrderToAttraction" FromRole="attraction" ToRole="productToOrder" />
           <NavigationProperty Name="images" Relationship="discoverIsraelModel.FK_Image_attraction" FromRole="attraction" ToRole="image" />
@@ -1066,18 +1019,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="generalTimeToAttraction">
-          <End Type="discoverIsraelModel.attraction" Role="attraction" Multiplicity="1" />
-          <End Type="discoverIsraelModel.generalTime" Role="generalTime" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="attraction">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="generalTime">
-              <PropertyRef Name="AttractionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="opinionToAttraction">
           <End Type="discoverIsraelModel.attraction" Role="attraction" Multiplicity="1" />
           <End Type="discoverIsraelModel.opinion" Role="opinion" Multiplicity="*" />
@@ -1120,6 +1061,29 @@
             </Principal>
             <Dependent Role="image">
               <PropertyRef Name="AttractionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="generalTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PeriodId" Type="Int32" />
+          <Property Name="DayInWeek" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <NavigationProperty Name="period" Relationship="discoverIsraelModel.generalTimeToPeriod" FromRole="generalTime" ToRole="period" />
+        </EntityType>
+        <Association Name="generalTimeToPeriod">
+          <End Type="discoverIsraelModel.period" Role="period" Multiplicity="0..1" />
+          <End Type="discoverIsraelModel.generalTime" Role="generalTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="generalTime">
+              <PropertyRef Name="PeriodId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1218,18 +1182,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="generalTimes">
-            <EntityTypeMapping TypeName="discoverIsraelModel.generalTime">
-              <MappingFragment StoreEntitySet="generalTime">
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
-                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
-                <ScalarProperty Name="AttractionId" ColumnName="AttractionId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="opinions">
             <EntityTypeMapping TypeName="discoverIsraelModel.opinion">
               <MappingFragment StoreEntitySet="opinion">
@@ -1323,6 +1275,17 @@
               <MappingFragment StoreEntitySet="image">
                 <ScalarProperty Name="Img" ColumnName="Img" />
                 <ScalarProperty Name="AttractionId" ColumnName="AttractionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="generalTimes">
+            <EntityTypeMapping TypeName="discoverIsraelModel.generalTime">
+              <MappingFragment StoreEntitySet="generalTime">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

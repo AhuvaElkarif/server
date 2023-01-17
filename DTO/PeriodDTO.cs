@@ -20,5 +20,7 @@ namespace DTO
         public Nullable<bool> IsOpen { get; set; }
         public Nullable<int> SeasonId { get; set; }
         public string Color { get; set; }
+        public virtual List<GeneralTimeDTO> GeneralTimes { get; set; }
+
     }
 }

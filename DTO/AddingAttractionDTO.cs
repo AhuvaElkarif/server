@@ -10,6 +10,8 @@ namespace DTO
     {
         public AttractionDTO Attraction { get; set; }
         public List<PeriodDTO> PeriodsList { get; set; }
+        public List<GeneralTimeDTO> TimesList { get; set; }
+
         public List<ImageDTO> ImagesList { get; set; }
         public List<EquipmentDTO> EquipmentsList { get; set; }
         public UserDTO Manager { get; set; }

@@ -43,9 +43,9 @@ namespace BLL.Service
             return Convert.AttractionConvert.Convert(model.Post(Convert.AttractionConvert.Convert(attraction)));
         }
 
-        public DTO.AttractionDTO Put(AttractionDTO attraction)
+        public DTO.AttractionDTO Put(DTO.AttractionDTO attraction)
         {
-           return Convert.AttractionConvert.Convert(model.Put(Convert.AttractionConvert.Convert(attraction)));
+            return Convert.AttractionConvert.Convert(model.Put(Convert.AttractionConvert.Convert(attraction)));
         }
         
              public DTO.AttractionDTO ChangeAttractionAvailable(int attractionId)
