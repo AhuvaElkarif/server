@@ -46,6 +46,89 @@ namespace DAL.Model
                 var startDate = new DateTime(year, month, 1).Date;
                 List<EventsInCalender> daysInMonth = new List<EventsInCalender>();
                 var lastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+                lastDate = lastDate.AddMonths(3);
+
+                // אתחול תאריך ההתחלה לתאריך הנוכחי
+                if (startDate < DateTime.Now)
+                    startDate = DateTime.Now;
+
+                // מציאת כל התקופות המתאימות לחודש והשנה
+                List<period> periods = db.periods.Where(x =>
+                                       x.AttractionId == atractionId && x.IsOpen == true &&
+                                       (x.FromDate <= startDate
+                                       && x.TillDate >= lastDate ||
+                                       x.FromDate >= startDate &&
+                                       x.FromDate <= lastDate ||
+                                       x.TillDate >= startDate &&
+                                       x.TillDate <= lastDate)).ToList();
+                //  במידה ולא נמצאו כלל תקופות
+                if (periods == null)
+                {
+                    for (var s = start; s != lastDate; s = s.AddDays(1))
+                    {
+                        daysInMonth.Add(new EventsInCalender() { start = start, title = "סגור", backgroundColor = "red" });
+                    }
+                    return daysInMonth;
+                }
+
+                // מעבר על כל הימים שעברו כבר בחודש הנוכחי והצגת הודעה מתאימה
+                for (; start.Date != startDate.Date; start = start.AddDays(1))
+                {
+                    daysInMonth.Add(new EventsInCalender() { start = start.Date, title = "סגור", backgroundColor = "red" });
+                }
+                // מיון הרשימה לפי תאריכי החודש
+                periods = periods.OrderBy(p => p.FromDate).ToList();
+                DateTime d = startDate.Date;
+                for (int i = 0; i < periods.Count(); i++)
+                {
+                    period period = periods[i];
+                    for (; startDate.Date != lastDate.Date; startDate = startDate.AddDays(1))
+                    {
+                        if (startDate >= period.FromDate && startDate <= period.TillDate)
+                        {
+                            generalTime g = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek + 1));
+                            if (g != null)
+                            {
+                                TimeSpan diff = (TimeSpan)(g.EndTime - g.StartTime);
+                                var manyDay = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / period.attraction.TimeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
+                                var countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate.Date && x.Status == true)?.Sum(x => x.Amount);
+                                countInDay = countInDay!=null ? countInDay : 0;
+                                if ((int)manyDay - countInDay  >= amount)
+                                    daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "יש כרטיסים", backgroundColor = "green" });
+                                else
+                                    daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "כרטיסים אזלו", backgroundColor = "red" });
+                            }
+                            else
+                                daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "סגור", backgroundColor = "red" });
+                        }
+                        else
+                        {
+                            if (i + 1 < periods.Count())
+                                for (; startDate.Date != lastDate.Date && startDate <= periods[i + 1].FromDate; startDate = startDate.AddDays(1))
+                                    daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "סגור", backgroundColor = "red" });
+
+                            break;
+                        }
+                    }
+                }
+
+                // מעבר על כל הימים שנשארו 
+               
+                for (; startDate.Date != lastDate.Date.AddDays(1); startDate = startDate.AddDays(1))
+                {
+                    daysInMonth.Add(new EventsInCalender() { start = startDate.Date, title = "סגור", backgroundColor = "red" });
+                }
+                return daysInMonth;
+            }
+        }
+        public List<EventsInCalender> GetDaysInMonth2(int atractionId, int month, int year, int amount)
+        {
+            using (discoverIsraelEntities db = new discoverIsraelEntities())
+            {
+                var start = new DateTime(year, month, 1);
+                var startDate = new DateTime(year, month, 1).Date;
+                List<EventsInCalender> daysInMonth = new List<EventsInCalender>();
+                var lastDate = new DateTime(year, month, DateTime.DaysInMonth(year, month));
 
                 // אתחול תאריך ההתחלה לתאריך הנוכחי
                 if (startDate < DateTime.Now)
@@ -62,7 +145,7 @@ namespace DAL.Model
                                        && x.TillDate.Month == startDate.Month))).ToList();
                 //  במידה ולא נמצאו כלל תקופות
                 //  או שהתאריך כבר חלף
-                if (periods == null || (month!=startDate.Month && year!=startDate.Year))
+                if (periods == null || (month != startDate.Month && year != startDate.Year))
                 {
                     for (var s = start; s.Month == month; s = s.AddDays(1))
                     {
@@ -86,13 +169,13 @@ namespace DAL.Model
                     {
                         if (startDate >= period.FromDate && startDate <= period.TillDate)
                         {
-                            generalTime g = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek+1));
+                            generalTime g = period.generalTimes.FirstOrDefault(x => x.DayInWeek == ((int)startDate.DayOfWeek + 1));
                             if (g != null)
                             {
                                 TimeSpan diff = (TimeSpan)(g.EndTime - g.StartTime);
                                 var manyDay = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / period.attraction.TimeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
-                                var countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate.Date && x.Status==true)?.Sum(x=>x.Amount);
-                                if (countInDay!=null && (int)manyDay - countInDay >= amount && countInDay + amount >= period.attraction.MinParticipant)
+                                var countInDay = db.orderAttractions.Where(x => x.AttractionId == atractionId && x.OrderDate == startDate.Date && x.Status == true)?.Sum(x => x.Amount);
+                                if (countInDay != null && (int)manyDay - countInDay >= amount && countInDay + amount >= period.attraction.MinParticipant)
                                     daysInMonth.Add(new EventsInCalender() { start = startDate, title = "יש כרטיסים", backgroundColor = "green" });
                                 else
                                     daysInMonth.Add(new EventsInCalender() { start = startDate, title = "כרטיסים אזלו", backgroundColor = "red" });
@@ -123,7 +206,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                var date = new DateTime(year,month,day);
+                var date = new DateTime(year, month, day);
                 var dayInWeek = date.DayOfWeek;
                 var period = db.periods.FirstOrDefault(x => x.AttractionId == id && x.FromDate <= date && x.TillDate >= date);
                 var timeDuration = period.attraction.TimeDuration;
@@ -136,7 +219,7 @@ namespace DAL.Model
                 for (TimeSpan start = times.StartTime.Value; TimeSpan.Compare(times.EndTime.Value, start) > 0; start = start.Add(TimeSpan.FromMinutes((double)timeDuration)))
                 {
                     var manyTime = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / timeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
-                    int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && x.Status==true).GroupBy(x => x.StartTime).ToList().Count();
+                    int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && x.Status == true).GroupBy(x => x.StartTime).ToList().Count();
                     if ((int)manyTime - countInTime > 0)
                         timesInDays.Add(new TimesInCalender() { start = start });
                 }
@@ -163,7 +246,7 @@ namespace DAL.Model
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 if (orderAttraction.UserId == -1)
-                     orderAttraction.UserId = addTempUser(user);
+                    orderAttraction.UserId = addTempUser(user);
                 orderAttraction = db.orderAttractions.Add(orderAttraction);
                 user u = db.users.FirstOrDefault(x => x.Id == orderAttraction.UserId);
                 orderAttraction.user = u;
@@ -171,8 +254,9 @@ namespace DAL.Model
                 string b = "<h1> הזמנתך בוצעה בהצלחה! </h1>";
                 b += "<h4> פרטי הזמנה: </h4>";
                 b += "<p> תאריך: " + orderAttraction.OrderDate.Date + " זמן התחלה האטרקציה " + orderAttraction.StartTime
-                    + " כמות משתתפים: " + orderAttraction.Amount + " על סך: " + orderAttraction.GlobalPrice + "</p>";
+                    + "<br/> כמות משתתפים: " + orderAttraction.Amount + " על סך: " + orderAttraction.GlobalPrice + "</p>";
                 SendMessage(u, orderAttraction, "ההזמנה התבצעה בהצלחה!", b);
+                db.SaveChanges();
                 return orderAttraction;
             }
         }
@@ -184,7 +268,7 @@ namespace DAL.Model
                 o.Status = !o.Status;
                 if (o.Status == false)
                 {
-                    SendMessage(o.user, o, "<h1>ביטול הזמנה</h1>", "הזמנתך בוטלה בהצלחה.");
+                    SendMessage(o.user, o, "ביטול הזמנה", "הזמנתך בוטלה בהצלחה.");
                 }
                 db.SaveChanges();
                 return true;
@@ -208,15 +292,21 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                orderAttraction newOrderAttraction = db.orderAttractions.FirstOrDefault(x => x.Id == orderAttraction.Id);
+                orderAttraction newOrderAttraction = db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Include("user").FirstOrDefault(x => x.Id == orderAttraction.Id);
                 newOrderAttraction.OrderDate = orderAttraction.OrderDate;
                 newOrderAttraction.UserId = orderAttraction.UserId;
+                newOrderAttraction.AttractionId= orderAttraction.AttractionId;  
                 newOrderAttraction.GlobalPrice = orderAttraction.GlobalPrice;
                 newOrderAttraction.Amount = orderAttraction.Amount;
                 newOrderAttraction.Status = orderAttraction.Status;
                 newOrderAttraction.IsApproval = orderAttraction.IsApproval;
+                string b = "<h1> הזמנתך עודכנה בהצלחה! </h1>";
+                b += "<h4> פרטי הזמנה: </h4>";
+                b += "<p> תאריך: " + orderAttraction.OrderDate.Date + " זמן התחלה האטרקציה " + orderAttraction.StartTime
+                    + "<br/> כמות משתתפים: " + orderAttraction.Amount + " על סך: " + orderAttraction.GlobalPrice + "</p>";
+                SendMessage(orderAttraction.user, orderAttraction, "ההזמנה עודכנה בהצלחה!", b);
                 db.SaveChanges();
-                return orderAttraction;
+                return newOrderAttraction;
             }
         }
         public orderAttraction Delete(orderAttraction orderAttraction)
