@@ -38,9 +38,9 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("Api/orderAttraction/GetTimesInDay")]
-        public List<TimesInCalenderDTO> GetTimesInDay(int day, int month, int year, int id)
+        public List<TimesInCalenderDTO> GetTimesInDay(int day, int month, int year, int id, int amount)
         {
-            return service.GetTimesInDay(day, month, year, id);
+            return service.GetTimesInDay(day, month, year, id, amount);
         }
         [HttpPut]
         public IHttpActionResult ChangeOrderStaus(int orderId)

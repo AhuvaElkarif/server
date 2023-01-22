@@ -31,7 +31,6 @@ namespace DAL
         public virtual DbSet<area> areas { get; set; }
         public virtual DbSet<season> seasons { get; set; }
         public virtual DbSet<kindReport> kindReports { get; set; }
-        public virtual DbSet<report> reports { get; set; }
         public virtual DbSet<category> categories { get; set; }
         public virtual DbSet<period> periods { get; set; }
         public virtual DbSet<opinion> opinions { get; set; }
@@ -42,5 +41,6 @@ namespace DAL
         public virtual DbSet<attraction> attractions { get; set; }
         public virtual DbSet<image> images { get; set; }
         public virtual DbSet<generalTime> generalTimes { get; set; }
+        public virtual DbSet<report> reports { get; set; }
     }
 }

@@ -21,9 +21,9 @@ namespace DAL
         public Nullable<int> UserId { get; set; }
         public Nullable<bool> Status { get; set; }
     
+        public virtual attraction attraction { get; set; }
         public virtual kindReport kindReport { get; set; }
         public virtual opinion opinion { get; set; }
         public virtual user user { get; set; }
-        public virtual attraction attraction { get; set; }
     }
 }

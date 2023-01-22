@@ -23,6 +23,7 @@ namespace BLL.Convert
                 AttractionId = obj.AttractionId,
                 UserName = obj?.user.Name,
                 IsApproval = obj.IsApproval,
+                Status = obj.Status,
                 User = UserConvert.Convert(obj?.user),
                 Attraction = AttractionConvert.Convert(obj?.attraction),
                 IsWritten = obj?.attraction?.opinions.FirstOrDefault(x => x.UserId == obj.UserId && x.AttractionId == obj.AttractionId) != null ? true : false
@@ -36,7 +37,7 @@ namespace BLL.Convert
             return new DAL.orderAttraction()
             {
                 Id = obj.Id,
-                OrderDate = obj.OrderDate,
+                OrderDate = obj.OrderDate.Date,
                 UserId = obj.UserId,
                 StartTime = obj.StartTime,
                 AttractionId = obj.AttractionId,

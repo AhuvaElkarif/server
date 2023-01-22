@@ -57,7 +57,7 @@ namespace API.Controllers
         }
         [HttpDelete]
         [Route("api/equipment/Delete")]
-        public IHttpActionResult Delete(List<EquipmentDTO> equipment)
+        public IHttpActionResult Delete(EquipmentDTO equipment)
         {
             try
             {

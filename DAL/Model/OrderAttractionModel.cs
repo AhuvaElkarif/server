@@ -28,7 +28,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Include("user").Where(x => x.attraction.ManagerId == managerId && x.Status == true).ToList();
+                return db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Include("user").Where(x => x.attraction.ManagerId == managerId).ToList();
             }
         }
         public List<orderAttraction> GetOrdersByUserId(int userId)
@@ -202,25 +202,27 @@ namespace DAL.Model
                 return daysInMonth;
             }
         }
-        public List<TimesInCalender> GetTimesInDay(int day, int month, int year, int id)
+        public List<TimesInCalender> GetTimesInDay(int day, int month, int year, int id, int amount)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 var date = new DateTime(year, month, day);
                 var dayInWeek = date.DayOfWeek;
                 var period = db.periods.FirstOrDefault(x => x.AttractionId == id && x.FromDate <= date && x.TillDate >= date);
-                var timeDuration = period.attraction.TimeDuration;
-                var times = db.generalTimes.FirstOrDefault(x => x.PeriodId == period.Id && x.DayInWeek == (int)dayInWeek);
+                var attraction = period.attraction;
+                var times = db.generalTimes.FirstOrDefault(x => x.PeriodId == period.Id && x.DayInWeek == (int)dayInWeek+1);
                 List<TimesInCalender> timesInDays = new List<TimesInCalender>();
 
                 if (times == null)
                     return null;
                 TimeSpan diff = (TimeSpan)(times.EndTime - times.StartTime);
-                for (TimeSpan start = times.StartTime.Value; TimeSpan.Compare(times.EndTime.Value, start) > 0; start = start.Add(TimeSpan.FromMinutes((double)timeDuration)))
+                for (TimeSpan start = times.StartTime.Value; TimeSpan.Compare(times.EndTime.Value, start) > 0; start = start.Add(TimeSpan.FromMinutes((double)attraction.TimeDuration)))
                 {
-                    var manyTime = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / timeDuration);//( (int)g.EndTime.Value.Hours - (int)g.StartTime.Value.Hours) * 60 / period.attraction.TimeDuration);
-                    int countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && x.Status == true).GroupBy(x => x.StartTime).ToList().Count();
-                    if ((int)manyTime - countInTime > 0)
+                    var manyTime = period.attraction.MaxParticipant * ((int)diff.TotalMinutes / attraction.TimeDuration);
+                    var countInTime = db.orderAttractions.Where(x => x.AttractionId == period.AttractionId && x.OrderDate == date && x.Status == true)?.Sum(x => x.Amount);//.GroupBy(x => x.StartTime).ToList().Count();
+                    countInTime = countInTime != null ? countInTime : 0;
+                    //if ((int)manyTime - countInTime <= amount && amount + countInTime >= attraction.MinParticipant && amount + countInTime <= attraction.MaxParticipant) 
+                    if (amount + countInTime >= attraction.MinParticipant && amount + countInTime <= attraction.MaxParticipant)
                         timesInDays.Add(new TimesInCalender() { start = start });
                 }
 
@@ -293,8 +295,9 @@ namespace DAL.Model
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
                 orderAttraction newOrderAttraction = db.orderAttractions.Include("attraction").Include("attraction.images").Include("attraction.periods").Include("attraction.opinions").Include("attraction.category").Include("user").FirstOrDefault(x => x.Id == orderAttraction.Id);
-                newOrderAttraction.OrderDate = orderAttraction.OrderDate;
+                newOrderAttraction.OrderDate = orderAttraction.OrderDate.Date.AddDays(1);
                 newOrderAttraction.UserId = orderAttraction.UserId;
+                newOrderAttraction.StartTime = orderAttraction.StartTime;
                 newOrderAttraction.AttractionId= orderAttraction.AttractionId;  
                 newOrderAttraction.GlobalPrice = orderAttraction.GlobalPrice;
                 newOrderAttraction.Amount = orderAttraction.Amount;
@@ -304,6 +307,7 @@ namespace DAL.Model
                 b += "<h4> פרטי הזמנה: </h4>";
                 b += "<p> תאריך: " + orderAttraction.OrderDate.Date + " זמן התחלה האטרקציה " + orderAttraction.StartTime
                     + "<br/> כמות משתתפים: " + orderAttraction.Amount + " על סך: " + orderAttraction.GlobalPrice + "</p>";
+                orderAttraction.user = orderAttraction.user == null ? db.users.FirstOrDefault(x => x.Id == orderAttraction.UserId) : orderAttraction.user;
                 SendMessage(orderAttraction.user, orderAttraction, "ההזמנה עודכנה בהצלחה!", b);
                 db.SaveChanges();
                 return newOrderAttraction;

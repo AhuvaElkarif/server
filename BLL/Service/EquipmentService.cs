@@ -37,7 +37,7 @@ namespace BLL.Service
             return Convert.EquipmentConvert.Convert(model.Put(Convert.EquipmentConvert.Convert(equipment)));
         }
 
-        public bool Delete(List<EquipmentDTO> equipment)
+        public bool Delete(EquipmentDTO equipment)
         {
             return model.Delete(Convert.EquipmentConvert.Convert(equipment));
         }

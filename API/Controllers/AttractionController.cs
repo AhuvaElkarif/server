@@ -27,18 +27,8 @@ namespace API.Controllers
         public List<DTO.AttractionDTO> GetAttractionsByUserId(int userId)
         {
             return service.GetAttractionsByUserId(userId);
-            //try
-            //{
-            //    var a = service.GetAttractionsByUserId(id);
-            //    return Created("האטרקציות התקבלו לפי קוד משתמש", a);
-            //}
-            //catch (Exception e)
-            //{
-            //    return BadRequest(e.Message);
-            //}
         }
         [HttpPost]
-        //[Route("api/trip/post2")]
         public IHttpActionResult Post(AddingAttractionDTO attraction)
         {
             try

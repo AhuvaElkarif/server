@@ -49,20 +49,20 @@ namespace DAL.Model
                 foreach (var item in equipment)
                 {
                     equipment newEquipment = db.equipments.FirstOrDefault(x => x.Id == item.Id);
-                    newEquipment.Name = item.Name;
+                    if (item.Name == "")
+                        Delete(newEquipment);
+                    else
+                        newEquipment.Name = item.Name;
                 }
                 db.SaveChanges();
                 return equipment;
             }
         }
-        public bool Delete(List<equipment> equipment)
+        public bool Delete(equipment equipment)
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-                foreach (var item in equipment)
-                {
-                    equipment newEquipment = db.equipments.Remove(db.equipments.FirstOrDefault(x => x.Id == item.Id));
-                }
+                equipment newEquipment = db.equipments.Remove(db.equipments.FirstOrDefault(x => x.Id == equipment.Id));
                 db.SaveChanges();
                 return true;
             }

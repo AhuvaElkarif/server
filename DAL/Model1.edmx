@@ -549,11 +549,6 @@
           <EntitySet Name="areas" EntityType="discoverIsraelModel.area" />
           <EntitySet Name="seasons" EntityType="discoverIsraelModel.season" />
           <EntitySet Name="kindReports" EntityType="discoverIsraelModel.kindReport" />
-          <EntitySet Name="reports" EntityType="discoverIsraelModel.report" />
-          <AssociationSet Name="FK__report__ReportId__151B244E" Association="discoverIsraelModel.FK__report__ReportId__151B244E">
-            <End Role="kindReport" EntitySet="kindReports" />
-            <End Role="report" EntitySet="reports" />
-          </AssociationSet>
           <EntitySet Name="categories" EntityType="discoverIsraelModel.category" />
           <EntitySet Name="periods" EntityType="discoverIsraelModel.period" />
           <AssociationSet Name="FK__period__SeasonId__01142BA1" Association="discoverIsraelModel.FK__period__SeasonId__01142BA1">
@@ -561,10 +556,6 @@
             <End Role="period" EntitySet="periods" />
           </AssociationSet>
           <EntitySet Name="opinions" EntityType="discoverIsraelModel.opinion" />
-          <AssociationSet Name="FK__report__OpinionI__1332DBDC" Association="discoverIsraelModel.FK__report__OpinionI__1332DBDC">
-            <End Role="opinion" EntitySet="opinions" />
-            <End Role="report" EntitySet="reports" />
-          </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="discoverIsraelModel.sysdiagram" />
           <EntitySet Name="abouts" EntityType="discoverIsraelModel.about" />
           <EntitySet Name="orderAttractions" EntityType="discoverIsraelModel.orderAttraction" />
@@ -580,10 +571,6 @@
           <AssociationSet Name="orderToUser" Association="discoverIsraelModel.orderToUser">
             <End Role="user" EntitySet="users" />
             <End Role="orderAttraction" EntitySet="orderAttractions" />
-          </AssociationSet>
-          <AssociationSet Name="FK__report__UserId__123EB7A3" Association="discoverIsraelModel.FK__report__UserId__123EB7A3">
-            <End Role="user" EntitySet="users" />
-            <End Role="report" EntitySet="reports" />
           </AssociationSet>
           <AssociationSet Name="FK_Wish_users" Association="discoverIsraelModel.FK_Wish_users">
             <End Role="user" EntitySet="users" />
@@ -610,10 +597,6 @@
             <End Role="attraction" EntitySet="attractions" />
             <End Role="period" EntitySet="periods" />
           </AssociationSet>
-          <AssociationSet Name="FK__report__Attracti__14270015" Association="discoverIsraelModel.FK__report__Attracti__14270015">
-            <End Role="attraction" EntitySet="attractions" />
-            <End Role="report" EntitySet="reports" />
-          </AssociationSet>
           <AssociationSet Name="FK_OrderAttraction" Association="discoverIsraelModel.FK_OrderAttraction">
             <End Role="attraction" EntitySet="attractions" />
             <End Role="orderAttraction" EntitySet="orderAttractions" />
@@ -639,6 +622,23 @@
           <AssociationSet Name="generalTimeToPeriod" Association="discoverIsraelModel.generalTimeToPeriod">
             <End Role="period" EntitySet="periods" />
             <End Role="generalTime" EntitySet="generalTimes" />
+          </AssociationSet>
+          <EntitySet Name="reports" EntityType="discoverIsraelModel.report" />
+          <AssociationSet Name="FK__report__Attracti__14270015" Association="discoverIsraelModel.FK__report__Attracti__14270015">
+            <End Role="attraction" EntitySet="attractions" />
+            <End Role="report" EntitySet="reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK__report__ReportId__151B244E" Association="discoverIsraelModel.FK__report__ReportId__151B244E">
+            <End Role="kindReport" EntitySet="kindReports" />
+            <End Role="report" EntitySet="reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK__report__OpinionI__1332DBDC" Association="discoverIsraelModel.FK__report__OpinionI__1332DBDC">
+            <End Role="opinion" EntitySet="opinions" />
+            <End Role="report" EntitySet="reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK__report__UserId__123EB7A3" Association="discoverIsraelModel.FK__report__UserId__123EB7A3">
+            <End Role="user" EntitySet="users" />
+            <End Role="report" EntitySet="reports" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="equipment">
@@ -684,33 +684,6 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__ReportId__151B244E" FromRole="kindReport" ToRole="report" />
         </EntityType>
-        <EntityType Name="report">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AttractionId" Type="Int32" />
-          <Property Name="OpinionId" Type="Int32" />
-          <Property Name="ReportId" Type="Int32" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="Status" Type="Boolean" />
-          <NavigationProperty Name="kindReport" Relationship="discoverIsraelModel.FK__report__ReportId__151B244E" FromRole="report" ToRole="kindReport" />
-          <NavigationProperty Name="opinion" Relationship="discoverIsraelModel.FK__report__OpinionI__1332DBDC" FromRole="report" ToRole="opinion" />
-          <NavigationProperty Name="user" Relationship="discoverIsraelModel.FK__report__UserId__123EB7A3" FromRole="report" ToRole="user" />
-          <NavigationProperty Name="attraction" Relationship="discoverIsraelModel.FK__report__Attracti__14270015" FromRole="report" ToRole="attraction" />
-        </EntityType>
-        <Association Name="FK__report__ReportId__151B244E">
-          <End Type="discoverIsraelModel.kindReport" Role="kindReport" Multiplicity="0..1" />
-          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="kindReport">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="report">
-              <PropertyRef Name="ReportId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="category">
           <Key>
             <PropertyRef Name="Id" />
@@ -758,22 +731,10 @@
           <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Grading" Type="Double" Nullable="false" />
           <Property Name="Status" Type="Boolean" />
-          <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__OpinionI__1332DBDC" FromRole="opinion" ToRole="report" />
           <NavigationProperty Name="user" Relationship="discoverIsraelModel.opinionToUser" FromRole="opinion" ToRole="user" />
           <NavigationProperty Name="attraction" Relationship="discoverIsraelModel.opinionToAttraction" FromRole="opinion" ToRole="attraction" />
+          <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__OpinionI__1332DBDC" FromRole="opinion" ToRole="report" />
         </EntityType>
-        <Association Name="FK__report__OpinionI__1332DBDC">
-          <End Type="discoverIsraelModel.opinion" Role="opinion" Multiplicity="0..1" />
-          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="opinion">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="report">
-              <PropertyRef Name="OpinionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -835,9 +796,9 @@
           <Property Name="Active" Type="Boolean" />
           <NavigationProperty Name="opinions" Relationship="discoverIsraelModel.opinionToUser" FromRole="user" ToRole="opinion" />
           <NavigationProperty Name="orderAttractions" Relationship="discoverIsraelModel.orderToUser" FromRole="user" ToRole="orderAttraction" />
-          <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__UserId__123EB7A3" FromRole="user" ToRole="report" />
           <NavigationProperty Name="wishes" Relationship="discoverIsraelModel.FK_Wish_users" FromRole="user" ToRole="wish" />
           <NavigationProperty Name="attractions" Relationship="discoverIsraelModel.FK__attractio__Manag__35BCFE0A" FromRole="user" ToRole="attraction" />
+          <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__UserId__123EB7A3" FromRole="user" ToRole="report" />
         </EntityType>
         <Association Name="opinionToUser">
           <End Type="discoverIsraelModel.user" Role="user" Multiplicity="1" />
@@ -859,18 +820,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="orderAttraction">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__report__UserId__123EB7A3">
-          <End Type="discoverIsraelModel.user" Role="user" Multiplicity="0..1" />
-          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="report">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -916,12 +865,12 @@
           <NavigationProperty Name="user" Relationship="discoverIsraelModel.FK__attractio__Manag__35BCFE0A" FromRole="attraction" ToRole="user" />
           <NavigationProperty Name="equipments" Relationship="discoverIsraelModel.FK__equipment__Attra__38996AB5" FromRole="attraction" ToRole="equipment" />
           <NavigationProperty Name="periods" Relationship="discoverIsraelModel.FK__period__Attracti__7E37BEF6" FromRole="attraction" ToRole="period" />
-          <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__Attracti__14270015" FromRole="attraction" ToRole="report" />
           <NavigationProperty Name="orderAttractions" Relationship="discoverIsraelModel.FK_OrderAttraction" FromRole="attraction" ToRole="orderAttraction" />
           <NavigationProperty Name="wishes" Relationship="discoverIsraelModel.FK_wish_attraction1" FromRole="attraction" ToRole="wish" />
           <NavigationProperty Name="opinions" Relationship="discoverIsraelModel.opinionToAttraction" FromRole="attraction" ToRole="opinion" />
           <NavigationProperty Name="productToOrders" Relationship="discoverIsraelModel.productToOrderToAttraction" FromRole="attraction" ToRole="productToOrder" />
           <NavigationProperty Name="images" Relationship="discoverIsraelModel.FK_Image_attraction" FromRole="attraction" ToRole="image" />
+          <NavigationProperty Name="reports" Relationship="discoverIsraelModel.FK__report__Attracti__14270015" FromRole="attraction" ToRole="report" />
         </EntityType>
         <Association Name="FK_attraction_Area">
           <End Type="discoverIsraelModel.area" Role="area" Multiplicity="0..1" />
@@ -979,18 +928,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="period">
-              <PropertyRef Name="AttractionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__report__Attracti__14270015">
-          <End Type="discoverIsraelModel.attraction" Role="attraction" Multiplicity="0..1" />
-          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="attraction">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="report">
               <PropertyRef Name="AttractionId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1087,6 +1024,69 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AttractionId" Type="Int32" />
+          <Property Name="OpinionId" Type="Int32" />
+          <Property Name="ReportId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="attraction" Relationship="discoverIsraelModel.FK__report__Attracti__14270015" FromRole="report" ToRole="attraction" />
+          <NavigationProperty Name="kindReport" Relationship="discoverIsraelModel.FK__report__ReportId__151B244E" FromRole="report" ToRole="kindReport" />
+          <NavigationProperty Name="opinion" Relationship="discoverIsraelModel.FK__report__OpinionI__1332DBDC" FromRole="report" ToRole="opinion" />
+          <NavigationProperty Name="user" Relationship="discoverIsraelModel.FK__report__UserId__123EB7A3" FromRole="report" ToRole="user" />
+        </EntityType>
+        <Association Name="FK__report__Attracti__14270015">
+          <End Type="discoverIsraelModel.attraction" Role="attraction" Multiplicity="0..1" />
+          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="attraction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="report">
+              <PropertyRef Name="AttractionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__report__ReportId__151B244E">
+          <End Type="discoverIsraelModel.kindReport" Role="kindReport" Multiplicity="0..1" />
+          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kindReport">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="report">
+              <PropertyRef Name="ReportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__report__OpinionI__1332DBDC">
+          <End Type="discoverIsraelModel.opinion" Role="opinion" Multiplicity="0..1" />
+          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="opinion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="report">
+              <PropertyRef Name="OpinionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__report__UserId__123EB7A3">
+          <End Type="discoverIsraelModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="discoverIsraelModel.report" Role="report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="report">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1144,18 +1144,6 @@
             <EntityTypeMapping TypeName="discoverIsraelModel.kindReport">
               <MappingFragment StoreEntitySet="kindReport">
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="reports">
-            <EntityTypeMapping TypeName="discoverIsraelModel.report">
-              <MappingFragment StoreEntitySet="report">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
-                <ScalarProperty Name="OpinionId" ColumnName="OpinionId" />
-                <ScalarProperty Name="AttractionId" ColumnName="AttractionId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1286,6 +1274,18 @@
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="DayInWeek" ColumnName="DayInWeek" />
                 <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reports">
+            <EntityTypeMapping TypeName="discoverIsraelModel.report">
+              <MappingFragment StoreEntitySet="report">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+                <ScalarProperty Name="OpinionId" ColumnName="OpinionId" />
+                <ScalarProperty Name="AttractionId" ColumnName="AttractionId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

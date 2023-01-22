@@ -67,7 +67,7 @@ namespace DAL.Model
             {
                 attraction a2 = db.attractions.Add(a.Attraction);
                 a.Attraction.equipments = a.EquipmentsList;
-                a.Attraction.user = a.Manager;
+                
                 foreach (var item in a.PeriodsList)
                     item.SeasonId = GetSeasonId(item);
                 a.Attraction.periods = a.PeriodsList;
@@ -81,6 +81,7 @@ namespace DAL.Model
                 }
                
                 db.SaveChanges();
+                a2 = db.attractions.Include("category").Include("images").Include("periods").Include("opinions").FirstOrDefault(x=>x.Id == a2.Id);
                 return a2;
             }
         }
@@ -133,9 +134,10 @@ namespace DAL.Model
                 foreach (var item in list)
                 {
                     item.Status = !item.Status;
-                    item.IsApproval = !item.IsApproval;
+                    //item.IsApproval = !item.IsApproval;
                     model.SendMessage(item.user, item, "<h1> הודעה עבור הזמנתך " + item.attraction.Name + " </h1>", "<p> אנו מתנצלים אך האטרקציה נסגרה. כספך יוחזר בימים הקרובים לכל שאלה או מענה ניתן לפנות אלינו בטלפון " + item.attraction.Phone + "</p>");
                 }
+                db.SaveChanges();
             }
         }
         public attraction ChangeAttractionStatus(int attractionId)

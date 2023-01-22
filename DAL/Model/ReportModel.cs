@@ -12,7 +12,7 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
-            return db.reports.Include("attraction").Include("attraction.category").Include("user").Include("kindReport").Include("opinion").Where(x => x.Status == true).ToList();
+                return db.reports.Include("attraction").Include("attraction.category").Include("user").Include("kindReport").Include("opinion").Where(x => x.Status == true).ToList();
             }
         }
 
@@ -42,6 +42,8 @@ namespace DAL.Model
         {
             using (discoverIsraelEntities db = new discoverIsraelEntities())
             {
+                if (db.reports.Any(x => x.OpinionId == report.OpinionId && x.Status==true))
+                    return null;
                 report = db.reports.Add(report);
                 db.SaveChanges();
                 return report;
